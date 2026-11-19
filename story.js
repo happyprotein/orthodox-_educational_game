@@ -15,7 +15,7 @@ const C = {
   TEODOR: { n: 'Teodor', p: 'teodor' },
   NIL: { n: 'Starac Nil', p: 'starac_nil' },
   EPISKOP: { n: 'Jedan episkop', p: null },
-  JOVAN: { n: 'Jovan Hronograf', p: 'jovan' },
+  JOVAN: { n: 'Jovan Hronograf', p: 'jovan', f: 'r' },
   PAFNUTIJE: { n: 'Pafnutije Tebaidski', p: 'pafnutije' },
 };
 
@@ -51,35 +51,37 @@ const TEO = {
 const S = {};
 
 S.uvod = [
+  { mus: 'uvod' },
   { bg: 'biblioteka', ch: null },
   { cap: 'Velika Lavra, Sveta Gora' },
-  { s: 'JOVAN', t: 'Dobro došao, putniče. Ja sam Jovan, bibliotekar ove Lavre. Prije nego što otvoriš ova akta, dozvoli starcu da ti kaže šta u njima piše, i koliko su skupo plaćena.' },
+  { s: 'JOVAN', pos: 'c', t: 'Dobro došao, putniče. Ja sam Jovan, bibliotekar ove Lavre. Prije nego što otvoriš ova akta, dozvoli starcu da ti kaže šta u njima piše, i koliko su skupo plaćena.' },
   { bg: 'odaje' },
-  { s: 'JOVAN', t: 'Aleksandrija, oko 318. godine. Luka, biblioteka, filosofi. I Crkva koja je tek preživjela Dioklecijanov progon.' },
-  { s: 'JOVAN', t: 'U crkvi zvanoj Bavkalis propovijeda prezviter Arije. Rodom je iz Libije, visok, mršav, podvižnik, učen u školi Lukijana Antiohijskog.' },
-  { s: 'JOVAN', t: 'Narod ga voli. Epifanije piše da ga je slijedilo sedam stotina posvećenih djevica.' },
-  { s: 'JOVAN', t: 'Arije je htio da sačuva ono što je svima sveto: da je Bog jedan. Pa je zaključio: ako je samo Otac nerođen, onda je Sin stvoren.' },
-  { s: 'JOVAN', t: 'Najuzvišenije stvorenje, kroz koje je sve ostalo stvoreno. Ali ipak stvorenje. „Bijaše kad ne bijaše“, govorio je. Bilo je vrijeme kad Sina nije bilo.' },
-  { s: 'JOVAN', t: 'Zvuči kao prepirka učenih ljudi. Ali pomisli: ako Hristos nije Bog, ko nas je onda spasio?' },
-  { s: 'JOVAN', t: 'Stvorenje ne može drugo stvorenje sjediniti s Bogom. Ako je Arije u pravu, između Boga i čovjeka ostaje provalija koju niko nije premostio.' },
-  { s: 'JOVAN', t: 'Episkop Aleksandar ga je opominjao, pa sazvao sabor episkopa Egipta i Libije. Arije je izopšten. Ali nije utihnuo.' },
+  { s: 'JOVAN', pos: 'l', t: 'Aleksandrija, oko 318. godine. Luka, biblioteka, filosofi. I Crkva koja je tek preživjela Dioklecijanov progon.' },
+  { s: 'JOVAN', pos: 'l', t: 'U crkvi zvanoj Bavkalis propovijeda prezviter Arije. Rodom je iz Libije, visok, mršav, podvižnik, učen u školi Lukijana Antiohijskog.' },
+  { s: 'JOVAN', pos: 'r', t: 'Narod ga voli. Epifanije piše da ga je slijedilo sedam stotina posvećenih djevica.' },
+  { s: 'JOVAN', pos: 'r', t: 'Arije je htio da sačuva ono što je svima sveto: da je Bog jedan. Pa je zaključio: ako je samo Otac nerođen, onda je Sin stvoren.' },
+  { s: 'JOVAN', pos: 'l', t: 'Najuzvišenije stvorenje, kroz koje je sve ostalo stvoreno. Ali ipak stvorenje. „Bijaše kad ne bijaše“, govorio je. Bilo je vrijeme kad Sina nije bilo.' },
+  { s: 'JOVAN', pos: 'c', sym: 'zrak', t: 'Zvuči kao prepirka učenih ljudi. Ali pomisli: ako Hristos nije Bog, ko nas je onda spasio?' },
+  { s: 'JOVAN', pos: 'c', t: 'Stvorenje ne može drugo stvorenje sjediniti s Bogom. Ako je Arije u pravu, između Boga i čovjeka ostaje provalija koju niko nije premostio.' },
+  { s: 'JOVAN', pos: 'r', sym: 'vrana', t: 'Episkop Aleksandar ga je opominjao, pa sazvao sabor episkopa Egipta i Libije. Arije je izopšten. Ali nije utihnuo.' },
   { bg: 'pristaniste' },
-  { s: 'JOVAN', t: 'Otišao je prijateljima. Najmoćniji među njima bio je Jevsevije, episkop Nikomidije, grada u kome je tada stolovao car.' },
-  { s: 'JOVAN', t: 'Pisma su letjela preko mora. Episkopi Istoka su se podijelili, a Arijeve pjesme su pjevali lađari i mlinari.' },
-  { s: 'JOVAN', t: 'Car Konstantin je 324. godine tek ujedinio carstvo. Poslao je Osija iz Kordove s pismom: ovo je sitno pitanje, pomirite se. Nisu se pomirili.' },
+  { s: 'JOVAN', pos: 'l', t: 'Otišao je prijateljima. Najmoćniji među njima bio je Jevsevije, episkop Nikomidije, grada u kome je tada stolovao car.' },
+  { s: 'JOVAN', pos: 'r', t: 'Pisma su letjela preko mora. Episkopi Istoka su se podijelili, a Arijeve pjesme su pjevali lađari i mlinari.' },
+  { s: 'JOVAN', pos: 'l', sym: 'golub', t: 'Car Konstantin je 324. godine tek ujedinio carstvo. Poslao je Osija iz Kordove s pismom: ovo je sitno pitanje, pomirite se. Nisu se pomirili.' },
   { bg: 'nikeja' },
-  { s: 'JOVAN', t: 'Zato je car učinio ono što niko prije njega nije: sazvao je episkope cijele vaseljene. U Nikeju, ljeta 325. Predanje kaže, trista osamnaest Otaca.' },
+  { s: 'JOVAN', pos: 'r', t: 'Zato je car učinio ono što niko prije njega nije: sazvao je episkope cijele vaseljene. U Nikeju, ljeta 325. Predanje kaže, trista osamnaest Otaca.' },
   { bg: 'biblioteka' },
-  { s: 'JOVAN', t: 'Nikeja nije bila kraj. Arijanstvo je još šezdeset godina imalo zaštitnike na carskom dvoru, a Atanasije je pet puta išao u izgnanstvo.' },
-  { s: 'JOVAN', t: 'Jeronim je zapisao da je svijet jednog dana zastenjao i začudio se što je postao arijanski.' },
-  { s: 'JOVAN', t: 'Goti su hrišćanstvo primili od arijanskog episkopa Vulfile, pa su varvarska kraljevstva Zapada vjekovima ostala arijanska. Ranu je tek Drugi vaseljenski sabor, u Carigradu 381, počeo da zatvara.' },
+  { s: 'JOVAN', pos: 'l', t: 'Nikeja nije bila kraj. Arijanstvo je još šezdeset godina imalo zaštitnike na carskom dvoru, a Atanasije je pet puta išao u izgnanstvo.' },
+  { s: 'JOVAN', pos: 'r', sym: 'vrana', t: 'Jeronim je zapisao da je svijet jednog dana zastenjao i začudio se što je postao arijanski.' },
+  { s: 'JOVAN', pos: 'c', t: 'Goti su hrišćanstvo primili od arijanskog episkopa Vulfile, pa su varvarska kraljevstva Zapada vjekovima ostala arijanska. Ranu je tek Drugi vaseljenski sabor, u Carigradu 381, počeo da zatvara.' },
   { teo: 'arijanstvo' },
-  { s: 'JOVAN', t: 'Ali to je za neki drugi put. Jedan stari monah, ovdje na Gori, upravo je dao svom učeniku ova akta da ih prepiše. Hajde da vidimo kako je to bilo.' },
+  { s: 'JOVAN', pos: 'c', t: 'Ali to je za neki drugi put. Jedan stari monah, ovdje na Gori, upravo je dao svom učeniku ova akta da ih prepiše. Hajde da vidimo kako je to bilo.' },
+  { mus: 'auto' },
   { go: 'prolog' },
 ];
 
 S.prolog = [
-  { bg: 'kelija', music: 0 },
+  { bg: 'kelija' },
   { cap: 'Sveta Gora, ljeto Gospodnje 1341.' },
   { s: 'TEODOR', t: 'Oče, opet je bio onaj kalabrijski učenjak u Kareji. Govorio je da je svjetlost na Tavoru stvorena.' },
   { s: 'TEODOR', t: 'Pitao sam ga da li je i on stvoren od iste svjetlosti, kad tako sija od pameti. Svi su se smijali.' },
@@ -106,7 +108,7 @@ S.dolazak = [
   { s: 'PAMFIL', t: 'Pafnutije, episkop iz Gornje Tebaide. U progonu su mu izvadili oko i presjekli tetivu na nozi, pa ga poslali u rudnike.' },
   { s: 'PAMFIL', t: 'A pogledaj ostale. Onom su spalili ruke. Onaj tamo je godinama bio u tamnici. Pola ovih ljudi nosi rane za vjeru.' },
   { n: 'Pafnutije zastaje pored tebe i gleda tvoju tablicu.' },
-  { s: 'PAFNUTIJE', t: 'Notarij? Piši pažljivo, sinko. Mi smo za ovu vjeru dali oči. Neka je ne izgubimo zbog jedne riječi.' },
+  { sym: 'zrak', s: 'PAFNUTIJE', t: 'Notarij? Piši pažljivo, sinko. Mi smo za ovu vjeru dali oči. Neka je ne izgubimo zbog jedne riječi.' },
   { choice: [
     { t: 'Pokloni se starcu', do: [
       { s: 'PAFNUTIJE', t: 'Ne meni, sinko. Ja sam samo zemlja koju su malo prekopali. Bog s tobom.' } ] },
@@ -190,7 +192,7 @@ S.bazilika = [
   { choice: [
     { t: 'Ostani poslije službe da se pomoliš', req: 'trez4', lock: 'Misli ti lete na sutrašnju raspravu.', do: [
       { bg: 'nikolaj_molitva', ch: null },
-      { n: 'Crkva se ispraznila. Ostao je samo jedan stari episkop iz Likije. Moli se nepomično, podignutih ruku.' },
+      { sym: 'zrak', n: 'Crkva se ispraznila. Ostao je samo jedan stari episkop iz Likije. Moli se nepomično, podignutih ruku.' },
       { n: 'Ne gleda te. Ne kaže ništa. Ali poslije te molitve ti je lakše nego cijelog dana.' },
       { trez: 1 },
       { s: 'PAMFIL', t: '(šapuće) To je onaj iz Mire. Kažu da je jednom Arija… ma, kažu svašta.' },
@@ -265,7 +267,7 @@ S.zidine = [
     { t: '„Da nas sjedini s Bogom.“', do: [
       { s: 'ATANASIJE', t: 'Tako je. Sad si rekao sve, samo to još ne znaš.' } ] },
   ] },
-  { s: 'ATANASIJE', t: 'On je postao čovjek da bismo mi postali bogovi. Ne po prirodi, Filone, nego po blagodati.' },
+  { sym: 'zrak', s: 'ATANASIJE', t: 'On je postao čovjek da bismo mi postali bogovi. Ne po prirodi, Filone, nego po blagodati.' },
   { s: 'ATANASIJE', t: 'Sad razmisli. Ako je Sin stvorenje, onda se u Hristu s mojom prirodom sjedinilo samo još jedno stvorenje. Stvorenje sa stvorenjem. Ja ostajem tamo gdje sam bio: daleko od Boga.' },
   { s: 'ATANASIJE', t: 'Samo ako je Onaj koji je postao čovjek pravi Bog, čovjek je u Njemu zaista dotakao Boga.' },
   { s: 'ATANASIJE', t: 'Zato se ne svađamo oko riječi, Filone. Svađamo se oko toga da li smo spaseni.' },
@@ -523,6 +525,7 @@ S.epilog = [
       { ch: null }, { n: 'Nema poena. Nema zvuka. Samo brod polako nestaje u sumraku.' }, { teo: 'anatema' } ] },
     { t: 'Gledaj kako brod odlazi', do: [ { ch: null }, { n: 'Brod polako nestaje u sumraku.' } ] },
   ] },
+  { mus: 'kraj' },
   { bg: 'kelija', ch: null },
   { cap: 'Sveta Gora, 1341.' },
   { if: 'ime', then: [ { s: 'TEODOR', t: '(U margini akata, sitnim slovima: „i notarij Filon zatvori usta jeretiku“. Stidim se, a nisam ja to pisao.)' } ] },
@@ -538,9 +541,9 @@ S.epilog = [
   { s: 'NIL', t: 'Ponesi i hljeb. Gladan čovjek loše sluša.' },
   { trez: 'full' },
   { bg: 'biblioteka', ch: null },
-  { s: 'JOVAN', t: 'Arije je umro jedanaest godina kasnije, u Carigradu, izvan općenja s Crkvom. Uoči dana kada su prijatelji htjeli da ga ponovo uvedu u nju.' },
-  { s: 'JOVAN', t: 'Atanasije je preživio pet izgnanstava i nadživio careve koji su ga progonili. A Simvol koji je Filon prepisao čitamo i danas, sa onim što su mu Oci dodali u Carigradu.' },
-  { s: 'JOVAN', t: 'Ali o Carigradu, i o Duhu Svetom, drugi put. Lampa mi se gasi, putniče.' },
+  { s: 'JOVAN', pos: 'l', sym: 'vrana', t: 'Arije je umro jedanaest godina kasnije, u Carigradu, izvan općenja s Crkvom. Uoči dana kada su prijatelji htjeli da ga ponovo uvedu u nju.' },
+  { s: 'JOVAN', pos: 'r', t: 'Atanasije je preživio pet izgnanstava i nadživio careve koji su ga progonili. A Simvol koji je Filon prepisao čitamo i danas, sa onim što su mu Oci dodali u Carigradu.' },
+  { s: 'JOVAN', pos: 'c', sym: 'golub', t: 'Ali o Carigradu, i o Duhu Svetom, drugi put. Lampa mi se gasi, putniče.' },
   { end: 1 },
 ];
 

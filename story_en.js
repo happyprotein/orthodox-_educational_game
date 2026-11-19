@@ -15,7 +15,7 @@ const C = {
   TEODOR: { n: 'Theodore', p: 'teodor' },
   NIL: { n: 'Elder Nilus', p: 'starac_nil' },
   EPISKOP: { n: 'A bishop', p: null },
-  JOVAN: { n: 'John the Chronographer', p: 'jovan' },
+  JOVAN: { n: 'John the Chronographer', p: 'jovan', f: 'r' },
   PAFNUTIJE: { n: 'Paphnutius of the Thebaid', p: 'pafnutije' },
 };
 
@@ -51,35 +51,37 @@ const TEO = {
 const S = {};
 
 S.uvod = [
+  { mus: 'uvod' },
   { bg: 'biblioteka', ch: null },
   { cap: 'The Great Lavra, Mount Athos' },
-  { s: 'JOVAN', t: 'Welcome, traveler. I am John, librarian of this Lavra. Before you open these acts, allow an old man to tell you what is written in them, and how dearly they were paid for.' },
+  { s: 'JOVAN', pos: 'c', t: 'Welcome, traveler. I am John, librarian of this Lavra. Before you open these acts, allow an old man to tell you what is written in them, and how dearly they were paid for.' },
   { bg: 'odaje' },
-  { s: 'JOVAN', t: 'Alexandria, around the year 318. A harbor, a library, philosophers. And a Church that has only just survived the persecution of Diocletian.' },
-  { s: 'JOVAN', t: 'In the church called Baucalis preaches the presbyter Arius. A Libyan by birth, tall, gaunt, an ascetic, trained in the school of Lucian of Antioch.' },
-  { s: 'JOVAN', t: 'The people love him. Epiphanius writes that seven hundred consecrated virgins followed him.' },
-  { s: 'JOVAN', t: 'Arius wanted to protect what everyone holds sacred: that God is one. So he reasoned: if only the Father is unbegotten, then the Son was made.' },
-  { s: 'JOVAN', t: 'The most exalted creature, through whom all else was made. But a creature all the same. “There was when He was not,” he used to say. There was a time when the Son did not exist.' },
-  { s: 'JOVAN', t: 'It sounds like a quarrel among scholars. But think: if Christ is not God, then who has saved us?' },
-  { s: 'JOVAN', t: 'A creature cannot unite another creature with God. If Arius is right, there remains a chasm between God and man that no one has bridged.' },
-  { s: 'JOVAN', t: 'Bishop Alexander warned him, then called a synod of the bishops of Egypt and Libya. Arius was excommunicated. But he did not fall silent.' },
+  { s: 'JOVAN', pos: 'l', t: 'Alexandria, around the year 318. A harbor, a library, philosophers. And a Church that has only just survived the persecution of Diocletian.' },
+  { s: 'JOVAN', pos: 'l', t: 'In the church called Baucalis preaches the presbyter Arius. A Libyan by birth, tall, gaunt, an ascetic, trained in the school of Lucian of Antioch.' },
+  { s: 'JOVAN', pos: 'r', t: 'The people love him. Epiphanius writes that seven hundred consecrated virgins followed him.' },
+  { s: 'JOVAN', pos: 'r', t: 'Arius wanted to protect what everyone holds sacred: that God is one. So he reasoned: if only the Father is unbegotten, then the Son was made.' },
+  { s: 'JOVAN', pos: 'l', t: 'The most exalted creature, through whom all else was made. But a creature all the same. “There was when He was not,” he used to say. There was a time when the Son did not exist.' },
+  { s: 'JOVAN', pos: 'c', sym: 'zrak', t: 'It sounds like a quarrel among scholars. But think: if Christ is not God, then who has saved us?' },
+  { s: 'JOVAN', pos: 'c', t: 'A creature cannot unite another creature with God. If Arius is right, there remains a chasm between God and man that no one has bridged.' },
+  { s: 'JOVAN', pos: 'r', sym: 'vrana', t: 'Bishop Alexander warned him, then called a synod of the bishops of Egypt and Libya. Arius was excommunicated. But he did not fall silent.' },
   { bg: 'pristaniste' },
-  { s: 'JOVAN', t: 'He went to his friends. The most powerful of them was Eusebius, bishop of Nicomedia, the city where the emperor then held court.' },
-  { s: 'JOVAN', t: 'Letters flew across the sea. The bishops of the East took sides, and Arius’s songs were sung by boatmen and millers.' },
-  { s: 'JOVAN', t: 'In 324 Emperor Constantine had just reunited the empire. He sent Hosius of Corduba with a letter: this is a trifling question, be reconciled. They were not reconciled.' },
+  { s: 'JOVAN', pos: 'l', t: 'He went to his friends. The most powerful of them was Eusebius, bishop of Nicomedia, the city where the emperor then held court.' },
+  { s: 'JOVAN', pos: 'r', t: 'Letters flew across the sea. The bishops of the East took sides, and Arius’s songs were sung by boatmen and millers.' },
+  { s: 'JOVAN', pos: 'l', sym: 'golub', t: 'In 324 Emperor Constantine had just reunited the empire. He sent Hosius of Corduba with a letter: this is a trifling question, be reconciled. They were not reconciled.' },
   { bg: 'nikeja' },
-  { s: 'JOVAN', t: 'So the emperor did what no one before him had done: he summoned the bishops of the whole inhabited world. To Nicaea, in the summer of 325. Tradition says three hundred and eighteen Fathers.' },
+  { s: 'JOVAN', pos: 'r', t: 'So the emperor did what no one before him had done: he summoned the bishops of the whole inhabited world. To Nicaea, in the summer of 325. Tradition says three hundred and eighteen Fathers.' },
   { bg: 'biblioteka' },
-  { s: 'JOVAN', t: 'Nicaea was not the end. Arianism kept protectors at the imperial court for sixty more years, and Athanasius went into exile five times.' },
-  { s: 'JOVAN', t: 'Jerome wrote that one day the whole world groaned and was astonished to find itself Arian.' },
-  { s: 'JOVAN', t: 'The Goths received Christianity from the Arian bishop Ulfilas, and so the barbarian kingdoms of the West remained Arian for centuries. Only the Second Ecumenical Council, at Constantinople in 381, began to close the wound.' },
+  { s: 'JOVAN', pos: 'l', t: 'Nicaea was not the end. Arianism kept protectors at the imperial court for sixty more years, and Athanasius went into exile five times.' },
+  { s: 'JOVAN', pos: 'r', sym: 'vrana', t: 'Jerome wrote that one day the whole world groaned and was astonished to find itself Arian.' },
+  { s: 'JOVAN', pos: 'c', t: 'The Goths received Christianity from the Arian bishop Ulfilas, and so the barbarian kingdoms of the West remained Arian for centuries. Only the Second Ecumenical Council, at Constantinople in 381, began to close the wound.' },
   { teo: 'arijanstvo' },
-  { s: 'JOVAN', t: 'But that is a story for another day. An old monk here on the Mountain has just given these acts to his disciple to copy. Let us see how it was.' },
+  { s: 'JOVAN', pos: 'c', t: 'But that is a story for another day. An old monk here on the Mountain has just given these acts to his disciple to copy. Let us see how it was.' },
+  { mus: 'auto' },
   { go: 'prolog' },
 ];
 
 S.prolog = [
-  { bg: 'kelija', music: 0 },
+  { bg: 'kelija' },
   { cap: 'Mount Athos, in the year of the Lord 1341' },
   { s: 'TEODOR', t: 'Father, that Calabrian scholar was in Karyes again. He said the light on Mount Tabor was created.' },
   { s: 'TEODOR', t: 'I asked him whether he was made of the same light, since he shines so brightly with cleverness. Everyone laughed.' },
@@ -106,7 +108,7 @@ S.dolazak = [
   { s: 'PAMFIL', t: 'Paphnutius, bishop from the Upper Thebaid. In the persecution they put out his eye, cut the sinews of his leg and sent him to the mines.' },
   { s: 'PAMFIL', t: 'And look at the others. That one had his hands burned. That one sat in prison for years. Half these men carry wounds for the faith.' },
   { n: 'Paphnutius stops beside you and looks at your tablet.' },
-  { s: 'PAFNUTIJE', t: 'A notary? Write carefully, my son. We gave our eyes for this faith. Let us not lose it over a single word.' },
+  { sym: 'zrak', s: 'PAFNUTIJE', t: 'A notary? Write carefully, my son. We gave our eyes for this faith. Let us not lose it over a single word.' },
   { choice: [
     { t: 'Bow to the old man', do: [
       { s: 'PAFNUTIJE', t: 'Not to me, my son. I am only earth that has been dug up a little. God be with you.' } ] },
@@ -190,7 +192,7 @@ S.bazilika = [
   { choice: [
     { t: 'Stay after the service to pray', req: 'trez4', lock: 'Your thoughts keep flying to tomorrow’s debate.', do: [
       { bg: 'nikolaj_molitva', ch: null },
-      { n: 'The church has emptied. Only one old bishop from Lycia remains. He prays motionless, hands raised.' },
+      { sym: 'zrak', n: 'The church has emptied. Only one old bishop from Lycia remains. He prays motionless, hands raised.' },
       { n: 'He does not look at you. He says nothing. But after that prayer you feel lighter than you have all day.' },
       { trez: 1 },
       { s: 'PAMFIL', t: '(whispers) That’s the one from Myra. They say he once… Arius… oh, people say all sorts of things.' },
@@ -265,7 +267,7 @@ S.zidine = [
     { t: '“To unite us with God.”', do: [
       { s: 'ATANASIJE', t: 'Yes. You have just said everything; you simply don’t know it yet.' } ] },
   ] },
-  { s: 'ATANASIJE', t: 'He became man that we might become gods. Not by nature, Philo, but by grace.' },
+  { sym: 'zrak', s: 'ATANASIJE', t: 'He became man that we might become gods. Not by nature, Philo, but by grace.' },
   { s: 'ATANASIJE', t: 'Now think. If the Son is a creature, then in Christ my nature was united only to another creature. Creature to creature. I remain where I was: far from God.' },
   { s: 'ATANASIJE', t: 'Only if the One who became man is true God has man truly touched God in Him.' },
   { s: 'ATANASIJE', t: 'That is why we are not quarreling over words, Philo. We are quarreling over whether we are saved.' },
@@ -523,6 +525,7 @@ S.epilog = [
       { ch: null }, { n: 'No points. No sound. Only the ship slowly vanishing into the dusk.' }, { teo: 'anatema' } ] },
     { t: 'Watch the ship sail away', do: [ { ch: null }, { n: 'The ship slowly vanishes into the dusk.' } ] },
   ] },
+  { mus: 'kraj' },
   { bg: 'kelija', ch: null },
   { cap: 'Mount Athos, 1341' },
   { if: 'ime', then: [ { s: 'TEODOR', t: '(In the margin of the acts, in tiny letters: “and the notary Philo silenced the heretic.” I am ashamed, and I didn’t even write it.)' } ] },
@@ -538,9 +541,9 @@ S.epilog = [
   { s: 'NIL', t: 'Take some bread too. A hungry man listens badly.' },
   { trez: 'full' },
   { bg: 'biblioteka', ch: null },
-  { s: 'JOVAN', t: 'Arius died eleven years later, in Constantinople, outside the communion of the Church. On the eve of the day his friends meant to bring him back into it.' },
-  { s: 'JOVAN', t: 'Athanasius survived five exiles and outlived the emperors who persecuted him. And the Creed that Philo copied we still read today, with what the Fathers added to it at Constantinople.' },
-  { s: 'JOVAN', t: 'But of Constantinople, and of the Holy Spirit, another time. My lamp is going out, traveler.' },
+  { s: 'JOVAN', pos: 'l', sym: 'vrana', t: 'Arius died eleven years later, in Constantinople, outside the communion of the Church. On the eve of the day his friends meant to bring him back into it.' },
+  { s: 'JOVAN', pos: 'r', t: 'Athanasius survived five exiles and outlived the emperors who persecuted him. And the Creed that Philo copied we still read today, with what the Fathers added to it at Constantinople.' },
+  { s: 'JOVAN', pos: 'c', sym: 'golub', t: 'But of Constantinople, and of the Holy Spirit, another time. My lamp is going out, traveler.' },
   { end: 1 },
 ];
 

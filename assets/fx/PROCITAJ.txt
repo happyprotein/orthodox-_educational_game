@@ -1,0 +1,7 @@
+Simbolični efekti (opciono). Imena fajlova:
+  zrak.webp    – nebeski zrak koji pada na glavu lika (na crnoj pozadini; crno postaje providno)
+  golub.webp   – golub u letu, krila gore (providna pozadina)
+  golub2.webp  – golub u letu, krila dolje (opciono, za mahanje krilima)
+  vrana.webp   – vrana u letu, krila gore (providna pozadina)
+  vrana2.webp  – vrana u letu, krila dolje (opciono)
+Ako fajla nema, zrak se crta kao jednostavan svjetlosni snop, a ptice se ne prikazuju.

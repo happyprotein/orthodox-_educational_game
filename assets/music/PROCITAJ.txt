@@ -1,18 +1,14 @@
-Ovdje idu snimci vizantijskog pojanja (MP3). Imena fajlova moraju biti tačno ovakva:
+Muzika u igri (vizantijsko pojanje, Musica Universalis):
 
-  atos.mp3    – Sveta Gora: Jovanov uvod, kelija, povratci na Atos, kraj igre
-  nikeja.mp3  – Nikeja: dolazak, istraga, zidine, hodnik
-  sabor.mp3   – Rasprava I i Rasprava II u sali Sabora
-  epilog.mp3  – Arijev odlazak brodom u sumrak
+  uvod.mp3    – Μεθ' ἡμῶν ὁ Θεός: uvodna numera, Jovanov uvod
+  atos.mp3    – Ὁ τῆς ψυχῆς ῥαθυμίᾳ νυστάξας: Sveta Gora, kelija, hodnik (kenodoksija)
+  nikeja.mp3  – Θεῖον ἡ Πηγή καὶ σεβάσμιον ὕδωρ: dolazak u Nikeju, istraga, zidine
+  sabor.mp3   – Χαίροις ἡ Ζωηφόρος Πηγή: Rasprava I i Rasprava II
+  kraj.mp3    – Πάσχα ἱερὸν ἡμῖν σήμερον: od povratka na Atos u epilogu do kraja igre
 
-Svaki snimak se vrti u petlji, pa je najbolje da traje 2–5 minuta i da kraj lijepo prelazi u početak.
-Ako nekog fajla nema, igra za tu scenu sama generiše ison i pojanje.
-U trenutku dugog tajca posle Arijevog odgovora muzika namjerno utihne.
+Muzika namjerno utihne: u trenutku Arijevog tajca, dok Nikolaj moli i dok Arijev brod odlazi.
+Kad se iznosi dokaz („Stani!“) ili kad pogriješiš, muzika se na trenutak stiša.
+Ako neki fajl izbrišeš, igra za tu scenu sama generiše ison i pojanje.
 
-Koristi samo snimke na koje imaš pravo (svoj snimak, snimak hora uz dozvolu, javno vlasništvo ili Creative Commons licenca koja dozvoljava ovakvu upotrebu).
-
----
-
-Put Byzantine chant recordings (MP3) here, named exactly: atos.mp3, nikeja.mp3, sabor.mp3, epilog.mp3.
-Each one loops. Missing files fall back to the built-in synthesized ison and chant.
-Only use recordings you have the rights to.
+PAŽNJA: ovo su komercijalni snimci. Prije javne objave na GitHub Pages provjeri da imaš dozvolu izdavača.
+Ako dozvole nema, izbriši mp3 fajlove iz ovog foldera; igra će raditi sa generisanim pojanjem.
