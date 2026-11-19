@@ -151,6 +151,18 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .lt span:hover{border-color:var(--terra);background:#fff3d0}
 .msg{min-height:28px;color:var(--terra);font-style:italic;margin-top:8px}
 #stage.menu #box,#stage.menu #hud,#stage.menu #tools,#stage.menu #por{visibility:hidden}
+ #soz{position:absolute;inset:0;z-index:22;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 120px;color:#efe2bf;background:radial-gradient(ellipse at 50% 62%,rgba(60,40,16,.45),rgba(4,3,6,.93) 68%)}
+#soz.on{display:flex}
+#soz.taken{animation:tk .9s}
+@keyframes tk{30%{background-color:rgba(120,10,10,.55)}}
+#sozP{position:absolute;top:64px;left:0;right:0;font-style:italic;font-size:19px;opacity:.5}
+#sozT{font-size:26px;line-height:1.45;max-width:940px;min-height:160px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:12px 26px;border-radius:10px;transition:color .5s,opacity .5s,text-shadow .5s,font-size .5s}
+#sozT.s0{opacity:.55;font-size:23px}#sozT.s1{opacity:.85;color:#f3dcc0}#sozT.s2{opacity:1;color:#f0a07a;text-shadow:0 0 14px rgba(200,60,30,.6);font-size:28px}
+#sozT.good{color:#f3d27a;font-style:italic;text-shadow:0 0 16px rgba(243,210,122,.5)}#sozT.gone{opacity:0}
+#sozT:hover{background:rgba(255,240,200,.05)}
+#sozS{font:600 15px var(--disp);letter-spacing:.08em;color:#c9a24a;min-height:22px;margin-top:6px}
+#sozM{min-height:30px;margin:14px 0 18px;font-style:italic;color:#e9d7a8}
+#sozB{font-size:18px;padding:10px 26px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -175,6 +187,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
   <div class="ov" id="give"><div class="card"><div class="tag" data-u="newEv"></div><img id="gI" alt=""><h2 id="gN"></h2><p id="gD"></p><div class="row" style="justify-content:center"><button id="gX" data-u="next"></button></div></div></div>
   <div class="ov" id="note"><div class="card" style="max-width:640px"><p id="noteT"></p><div class="row"><button id="noteX" data-u="ok"></button></div></div></div>
   <div class="ov" id="mini"><div class="card" id="miniC"></div></div>
+  <div id="soz"><div id="sozP"></div><div id="sozT"></div><div id="sozS"></div><div id="sozM"></div><button id="sozB" class="r"></button></div>
   <div id="toast"></div>
   <div id="splash"><b data-u="stani"></b></div>
   <div id="cardscr"><div><div class="a" id="cA"></div><div class="b" id="cB"></div><div class="small" data-u="clickCont"></div></div></div>
@@ -198,8 +211,8 @@ if(location.hash==='#latinica')LANG='lat';if(location.hash==='#cirilica')LANG='c
 const CYR=LANG==='cyr',EN=LANG==='en';
 if(EN)window.STORY=window.STORY_EN;
 document.documentElement.lang=EN?'en':CYR?'sr-Cyrl':'sr-Latn';
-const UI={sr:{trez:'Trezvenost',trezT:'Trezvenost (νῆψις)',pov:'Povjerenje',povT:'Povjerenje Sabora',kodeks:'Kodeks',teo:'Teologikon',press:'Pritisni',present:'Iznesi dokaz',presentShort:'Iznesi',close:'Zatvori',newEv:'Novi dokaz u kodeksu',next:'Dalje',ok:'Razumijem',stani:'Stani!',clickCont:'klikni za nastavak',title:'Ni jote',sub:'Slučaj I · Nikeja, 325.',start:'Počni',cont:'Nastavi',proto:'Prototip. Pravoslavna apologetska igra u maniru vizantijske freske.',endH:'Kraj Slučaja I',tease:'Slučaj II — Carigrad, 381.<br>Duh koji neće da bude imenovan.',again:'Igraj ponovo',openTeo:'Otvori Teologikon',soundOn:'Zvuk: da',soundOff:'Zvuk: ne',musOn:'Pojanje: da',musOff:'Pojanje: ne',trezUp:'Trezvenost raste',trezDown:'Trezvenost opada',povUp:'Povjerenje Sabora raste',teoT:'Teologikon: „{0}“',where:'Kuda dalje?',hubIntro:'Nikeja je puna episkopa, svitaka i glasina. Gdje ćeš prvo?',seen:'Ovdje si već sve vidio.',na:'Nije dostupno',pick:'Izaberi dokaz',pickEm:'Izaberi dokaz koji ćeš iznijeti.',readEm:'Izaberi dokaz da ga pročitaš.',empty:'Kodeks je još prazan.',teoEmpty:'Još nijedna stranica nije otključana. Stranice se otvaraju kako rješavaš slučaj.',src:'Izvor: ',stmt:'izjava',povLost:'Povjerenje Sabora je izgubljeno',nilFail:'Polako, Teodore. Jedna stranica dnevno. Pročitaj ponovo.',jClick:'Klikni riječ u kojoj je greška.',jOusia:'Ova jota pripada riječi οὐσία, suština. Traži onu koja je višak.',jLetter:'Ovo slovo je na mjestu.',jSusp:'Riječ je sumnjiva. Koje slovo ne pripada?',jWord:'Ova riječ je ispravna.',tr:'Prevod Simvola: ',endS:'Trezvenost na kraju: {0}/5 · Dokaza u kodeksu: {1}/{2}',endT:'Teologikon: {0}/{1} stranica',endSp:' (od toga posebnih: {0}/{1})',endNo:' · posebne stranice su ostale zaključane',docTitle:'Ni jote — Slučaj I'},
-en:{trez:'Sobriety',trezT:'Sobriety (νῆψις)',pov:'Trust',povT:'The Council’s trust',kodeks:'Codex',teo:'Theologikon',press:'Press',present:'Present evidence',presentShort:'Present',close:'Close',newEv:'New evidence in the codex',next:'Continue',ok:'Understood',stani:'Hold!',clickCont:'click to continue',title:'Not One Iota',sub:'Case I · Nicaea, 325',start:'Begin',cont:'Continue',proto:'Prototype. An Orthodox apologetics game in the manner of a Byzantine fresco.',endH:'End of Case I',tease:'Case II — Constantinople, 381.<br>The Spirit who would not be named.',again:'Play again',openTeo:'Open the Theologikon',soundOn:'Sound: on',soundOff:'Sound: off',musOn:'Chant: on',musOff:'Chant: off',trezUp:'Sobriety rises',trezDown:'Sobriety falls',povUp:'The Council’s trust rises',teoT:'Theologikon: “{0}”',where:'Where to next?',hubIntro:'Nicaea is full of bishops, scrolls and rumors. Where will you go first?',seen:'You have seen everything here.',na:'Not available',pick:'Choose evidence',pickEm:'Choose the evidence to present.',readEm:'Choose a piece of evidence to read it.',empty:'The codex is still empty.',teoEmpty:'No page has been unlocked yet. Pages open as you solve the case.',src:'Source: ',stmt:'statement',povLost:'The Council’s trust is lost',nilFail:'Slowly, Theodore. One page a day. Read it again.',jClick:'Click the word that contains the error.',jOusia:'This iota belongs to οὐσία, essence. Find the one that does not belong.',jLetter:'This letter is where it should be.',jSusp:'This word is suspicious. Which letter does not belong?',jWord:'This word is correct.',tr:'The Creed in English: ',endS:'Sobriety at the end: {0}/5 · Evidence in the codex: {1}/{2}',endT:'Theologikon: {0}/{1} pages',endSp:' (special pages: {0}/{1})',endNo:' · the special pages remained locked',docTitle:'Not One Iota — Case I'}};
+const UI={sr:{trez:'Trezvenost',trezT:'Trezvenost (νῆψις)',pov:'Povjerenje',povT:'Povjerenje Sabora',kodeks:'Kodeks',teo:'Teologikon',press:'Pritisni',present:'Iznesi dokaz',presentShort:'Iznesi',close:'Zatvori',newEv:'Novi dokaz u kodeksu',next:'Dalje',ok:'Razumijem',stani:'Stani!',clickCont:'klikni za nastavak',title:'Ni jote',sub:'Slučaj I · Nikeja, 325.',start:'Počni',cont:'Nastavi',proto:'Prototip. Pravoslavna apologetska igra u maniru vizantijske freske.',endH:'Kraj Slučaja I',tease:'Slučaj II — Carigrad, 381.<br>Duh koji neće da bude imenovan.',again:'Igraj ponovo',openTeo:'Otvori Teologikon',soundOn:'Zvuk: da',soundOff:'Zvuk: ne',pmPr:'Gospode Isuse Hriste, Sine Božiji, pomiluj me.',pm0:'prilog · προσβολή',pm1:'sočetanije · συνδυασμός',pm2:'slaganje · συγκατάθεσις',pm3:'plijen · αἰχμαλωσία',pmG:'molitva',pmBtn:'Presijeci pomisao',pmCut0:'Presječeno na prilogu.',pmCut1:'Presječeno, ali tek posle razgovora s njom.',pmCut2:'Kasno. Već si pristao.',pmTaken:'Pomisao te odnijela.',pmIn:'Molitva se ulila u srce.',pmWas:'To nije bila pomisao, nego molitva.',pmSum:'Presječeno na prilogu: {0} · Pomisli koje su te odnijele: {1}',pmUp:'Um je trezven.',pmDown:'Pomisli su te rasijale.',pmEven:'Borba je bila ravna.',musOn:'Pojanje: da',musOff:'Pojanje: ne',trezUp:'Trezvenost raste',trezDown:'Trezvenost opada',povUp:'Povjerenje Sabora raste',teoT:'Teologikon: „{0}“',where:'Kuda dalje?',hubIntro:'Nikeja je puna episkopa, svitaka i glasina. Gdje ćeš prvo?',seen:'Ovdje si već sve vidio.',na:'Nije dostupno',pick:'Izaberi dokaz',pickEm:'Izaberi dokaz koji ćeš iznijeti.',readEm:'Izaberi dokaz da ga pročitaš.',empty:'Kodeks je još prazan.',teoEmpty:'Još nijedna stranica nije otključana. Stranice se otvaraju kako rješavaš slučaj.',src:'Izvor: ',stmt:'izjava',povLost:'Povjerenje Sabora je izgubljeno',nilFail:'Polako, Teodore. Jedna stranica dnevno. Pročitaj ponovo.',jClick:'Klikni riječ u kojoj je greška.',jOusia:'Ova jota pripada riječi οὐσία, suština. Traži onu koja je višak.',jLetter:'Ovo slovo je na mjestu.',jSusp:'Riječ je sumnjiva. Koje slovo ne pripada?',jWord:'Ova riječ je ispravna.',tr:'Prevod Simvola: ',endS:'Trezvenost na kraju: {0}/5 · Dokaza u kodeksu: {1}/{2}',endT:'Teologikon: {0}/{1} stranica',endSp:' (od toga posebnih: {0}/{1})',endNo:' · posebne stranice su ostale zaključane',docTitle:'Ni jote — Slučaj I'},
+en:{trez:'Sobriety',trezT:'Sobriety (νῆψις)',pov:'Trust',povT:'The Council’s trust',kodeks:'Codex',teo:'Theologikon',press:'Press',present:'Present evidence',presentShort:'Present',close:'Close',newEv:'New evidence in the codex',next:'Continue',ok:'Understood',stani:'Hold!',clickCont:'click to continue',title:'Not One Iota',sub:'Case I · Nicaea, 325',start:'Begin',cont:'Continue',proto:'Prototype. An Orthodox apologetics game in the manner of a Byzantine fresco.',endH:'End of Case I',tease:'Case II — Constantinople, 381.<br>The Spirit who would not be named.',again:'Play again',openTeo:'Open the Theologikon',soundOn:'Sound: on',soundOff:'Sound: off',pmPr:'Lord Jesus Christ, Son of God, have mercy on me.',pm0:'suggestion · προσβολή',pm1:'coupling · συνδυασμός',pm2:'assent · συγκατάθεσις',pm3:'captivity · αἰχμαλωσία',pmG:'prayer',pmBtn:'Cut off the thought',pmCut0:'Cut off at the suggestion.',pmCut1:'Cut off, but only after conversing with it.',pmCut2:'Too late. You had already assented.',pmTaken:'The thought has carried you away.',pmIn:'The prayer has entered the heart.',pmWas:'That was not a thought, but a prayer.',pmSum:'Cut off at the suggestion: {0} · Thoughts that carried you away: {1}',pmUp:'The mind is sober.',pmDown:'The thoughts have scattered you.',pmEven:'An even struggle.',musOn:'Chant: on',musOff:'Chant: off',trezUp:'Sobriety rises',trezDown:'Sobriety falls',povUp:'The Council’s trust rises',teoT:'Theologikon: “{0}”',where:'Where to next?',hubIntro:'Nicaea is full of bishops, scrolls and rumors. Where will you go first?',seen:'You have seen everything here.',na:'Not available',pick:'Choose evidence',pickEm:'Choose the evidence to present.',readEm:'Choose a piece of evidence to read it.',empty:'The codex is still empty.',teoEmpty:'No page has been unlocked yet. Pages open as you solve the case.',src:'Source: ',stmt:'statement',povLost:'The Council’s trust is lost',nilFail:'Slowly, Theodore. One page a day. Read it again.',jClick:'Click the word that contains the error.',jOusia:'This iota belongs to οὐσία, essence. Find the one that does not belong.',jLetter:'This letter is where it should be.',jSusp:'This word is suspicious. Which letter does not belong?',jWord:'This word is correct.',tr:'The Creed in English: ',endS:'Sobriety at the end: {0}/5 · Evidence in the codex: {1}/{2}',endT:'Theologikon: {0}/{1} pages',endSp:' (special pages: {0}/{1})',endNo:' · the special pages remained locked',docTitle:'Not One Iota — Case I'}};
 function u(k,...a){let t=(EN?UI.en:UI.sr)[k]??k;a.forEach((v,i)=>{t=t.replace('{'+i+'}',v)});return t}
 const KEEP=/(Lex orandi, lex credendi|lex orandi|lex credendi|(?<=(?:Slučaj|Slučaja|Rasprava|arijanaca|Случај|Случаја|Расправа|аријанаца) )(?:III|II|I)(?![A-Za-zА-я]))/;
 const L1={A:'А',B:'Б',V:'В',G:'Г',D:'Д',Đ:'Ђ',E:'Е',Ž:'Ж',Z:'З',I:'И',J:'Ј',K:'К',L:'Л',M:'М',N:'Н',O:'О',P:'П',R:'Р',S:'С',T:'Т',Ć:'Ћ',U:'У',F:'Ф',H:'Х',C:'Ц',Č:'Ч',Š:'Ш'};
@@ -226,7 +239,7 @@ function ac(){if(!AU.ctx){try{const c=new (window.AudioContext||window.webkitAud
   if(AU.ctx&&AU.ctx.state==='suspended')AU.ctx.resume().catch(()=>{});return AU.ctx}
 function tone(f,dur,type,vol,when,slide){const c=AU.ctx;if(!c||!AU.on)return;const t=c.currentTime+(when||0);const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(f*slide,t+dur);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.006);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g).connect(AU.master);o.start(t);o.stop(t+dur+.03)}
 function noise(dur,vol,fr,when){const c=AU.ctx;if(!c||!AU.on)return;const t=c.currentTime+(when||0);const b=c.createBuffer(1,Math.floor(c.sampleRate*dur),c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);const src=c.createBufferSource();src.buffer=b;const bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=fr;bp.Q.value=.8;const g=c.createGain();g.gain.value=vol;src.connect(bp).connect(g).connect(AU.master);src.start(t)}
-const VOICE={FILON:[520,'triangle'],PAMFIL:[660,'square',.55],ARIJE:[250,'sawtooth',.5],ATANASIJE:[470,'triangle'],OSIJE:[300,'square',.45],ALEKSANDAR:[330,'triangle'],JN:[380,'sawtooth',.45],JK:[350,'triangle'],KONSTANTIN:[210,'square',.5],DOMETIJE:[290,'square',.5],NIKOLAJ:[240,'triangle'],TEODOR:[500,'triangle'],NIL:[230,'triangle',.9],EPISKOP:[320,'square',.45],JOVAN:[270,'triangle',.95],PAFNUTIJE:[235,'square',.5],NAR:[190,'sine',.8],THINK:[520,'sine',.7]};
+const VOICE={FILON:[520,'triangle'],PAMFIL:[660,'square',.55],ARIJE:[250,'sawtooth',.5],ATANASIJE:[470,'triangle'],OSIJE:[300,'square',.45],ALEKSANDAR:[330,'triangle'],JN:[380,'sawtooth',.45],JK:[350,'triangle'],KONSTANTIN:[210,'square',.5],DOMETIJE:[290,'square',.5],NIKOLAJ:[240,'triangle'],TEODOR:[500,'triangle'],NIL:[230,'triangle',.9],EPISKOP:[320,'square',.45],JOVAN:[270,'triangle',.95],EFROSINIJA:[610,'triangle',.8],FILOSOF:[300,'sawtooth',.45],STARAC:[235,'triangle',.85],PAFNUTIJE:[235,'square',.5],NAR:[190,'sine',.8],THINK:[520,'sine',.7]};
 let curVoice=VOICE.NAR;
 function blip(){const v=curVoice;tone(v[0]*(1+(Math.random()-.5)*.1),.05,v[1],.06*(v[2]||1))}
 const SFX={
@@ -244,7 +257,7 @@ const SFX={
 const MUS={on:true,cur:null,el:null,syn:null,bad:{},gain:null,lock:null,bg:null,vol:.3,duck:1};
 try{if(localStorage.getItem('nijote_pojanje')==='0')MUS.on=false}catch(e){}
 const BGTRACK={kelija:'atos',biblioteka:'atos',nikeja:'nikeja',pristaniste:'nikeja',odaje:'nikeja',skriptorijum:'nikeja',bazilika:'nikeja',nikolaj_molitva:'nikeja',dvoriste:'nikeja',zidine:'nikeja',hodnik:'atos',sala:'sabor',tajac:'tisina',brod:'tisina',sumrak:'tisina'};
-BGTRACK.nikolaj_molitva='tisina';
+BGTRACK.nikolaj_molitva='tisina';Object.assign(BGTRACK,{soba:'tisina',filon_molitva:'tisina',portik:'nikeja',gozba:'nikeja',poljubac:'tisina'});
 // modes in cents above the ison: soft diatonic (plagal 1st), hard chromatic (plagal 2nd)
 const MODES={
   atos:{f:146.8,sc:[-200,0,165,300,500,700,865,1000,1200],tempo:1.25,lo:1,hi:6,vol:1},
@@ -466,7 +479,7 @@ function openTeo(){
   else showTeo(teoSel&&L.includes(teoSel)?teoSel:L[L.length-1]);
   $('teo').classList.add('on');
 }
-const MIN={otac:'teo/otac.webp',roditi:'teo/roditi.webp',molitva:'teo/molitva.webp',homoousios:'teo/homoousios.webp',kenodoksija:'teo/kenodoksija.webp',jota:'teo/jota.webp',anatema:'bg/brod.jpg',arijanstvo:'teo/arijanstvo.webp',obozenje:'teo/obozenje.webp'};
+const MIN={otac:'teo/otac.webp',roditi:'teo/roditi.webp',molitva:'teo/molitva.webp',homoousios:'teo/homoousios.webp',kenodoksija:'teo/kenodoksija.webp',jota:'teo/jota.webp',anatema:'bg/brod.jpg',arijanstvo:'teo/arijanstvo.webp',obozenje:'teo/obozenje.webp',pomisli:'teo/pomisli.webp',vjera:'teo/vjera.webp'};
 function showTeo(k){teoSel=k;const t=TEO[k];$('teoB').classList.toggle('gold',!!t.g);$('teoM').src='assets/'+(MIN[k]||'teo/otac.webp');$('teoH').textContent=t.n;$('teoP').textContent=t.t;$('teoP').scrollTop=0;$('teoS').textContent=u('src')+t.s;
   [...$('teoL').children].forEach(b=>b.classList.toggle('cur',b.dataset.k===k))}
 $('teoL').addEventListener('click',e=>{const b=e.target.closest('button');if(b){SFX.page();showTeo(b.dataset.k)}});
@@ -525,6 +538,7 @@ function restorePres(){$('bPres').onclick=()=>{if(!tm)return;onPick=tmPresent;op
 
 // ---------- minigames ----------
 function mini(id){
+  if(id.startsWith('pomisli:'))return pomisli(id.split(':')[1]);
   mode='mini';const m=MINI[id],box=$('miniC');
   if(id==='price'){let miss=0;
     box.innerHTML=`<h2>${m.q}</h2>`+m.lines.map((l,i)=>`<button class="ln" data-i="${i}"><b>${l[0]}</b>${l[1]}</button>`).join('')+`<div class="msg" id="mm"></div>`;
@@ -548,6 +562,35 @@ function mini(id){
       else{$('mm').textContent=u('jWord');if(++miss>=4)fail()}};
   }
   $('mini').classList.add('on');
+}
+
+// ---------- contemplation: the stages of a thought ----------
+function pomisli(set){
+  mode='mini';const L=MINI.pomisli.sets[set];const ov=$('soz'),T=$('sozT'),St=$('sozS'),M=$('sozM'),B=$('sozB');
+  $('sozP').textContent=u('pmPr');M.textContent='';St.textContent='';T.textContent='';T.className='';B.textContent=u('pmBtn');B.style.visibility='visible';
+  ov.classList.add('on');let i=0,P=0,F=0,cur=null;const D=2000;
+  const say=(m)=>{M.textContent=m};
+  const nextTh=()=>{
+    if(i>=L.length)return finish();
+    const th=L[i++];cur={th,st:0,done:false,tm:null};T.removeAttribute('data-g');
+    if(th.g){T.dataset.g='1';T.className='good';T.textContent=th.t;St.textContent=u('pmG');say('');
+      cur.tm=setTimeout(()=>{cur.done=true;say(u('pmIn'));T.className='good gone';setTimeout(nextTh,1400)},3800);return}
+    T.className='s0';T.textContent=th.t[0];St.textContent=u('pm0');say('');
+    const adv=()=>{if(cur.done)return;cur.st++;
+      if(cur.st===1){T.className='s1';T.textContent=th.t[0]+' '+th.t[1];St.textContent=u('pm1')}
+      else if(cur.st===2){T.className='s2';T.textContent=th.t[0]+' '+th.t[1]+' '+th.t[2];St.textContent=u('pm2')}
+      else{cur.done=true;F++;St.textContent=u('pm3');say(u('pmTaken'));ov.classList.remove('taken');void ov.offsetWidth;ov.classList.add('taken');SFX.down();T.className='s2 gone';setTimeout(nextTh,1700);return}
+      cur.tm=setTimeout(adv,D)};
+    cur.tm=setTimeout(adv,D+400);
+  };
+  const cut=()=>{if(!cur||cur.done)return;cur.done=true;clearTimeout(cur.tm);
+    if(cur.th.g){say(u('pmWas'));T.className='good gone';setTimeout(nextTh,1500);return}
+    if(cur.st===0){P++;say(u('pmCut0'));SFX.up()}else if(cur.st===1){say(u('pmCut1'));SFX.click()}else{F++;say(u('pmCut2'));SFX.down()}
+    T.className+=' gone';setTimeout(nextTh,1300)};
+  T.onclick=cut;B.onclick=cut;
+  const finish=()=>{cur=null;const d=F>=2?-1:(P>=3?1:0);T.className='';T.textContent=u('pmSum',P,F);St.textContent='';say(u(d>0?'pmUp':d<0?'pmDown':'pmEven'));
+    B.textContent=u('next');B.onclick=()=>{ov.classList.remove('on');T.onclick=null;if(d)push([{trez:d}]);next()};T.onclick=null};
+  setTimeout(nextTh,900);
 }
 
 // ---------- ending / title ----------

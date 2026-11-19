@@ -17,6 +17,9 @@ const C = {
   EPISKOP: { n: 'Jedan episkop', p: null },
   JOVAN: { n: 'Jovan Hronograf', p: 'jovan', f: 'r' },
   PAFNUTIJE: { n: 'Pafnutije Tebaidski', p: 'pafnutije' },
+  EFROSINIJA: { n: 'Efrosinija', p: 'efrosinija' },
+  FILOSOF: { n: 'Filosof', p: 'filosof' },
+  STARAC: { n: 'Starac ispovjednik', p: 'starac' },
 };
 
 const EV = {
@@ -37,6 +40,8 @@ const EV = {
 };
 
 const TEO = {
+  pomisli: { n: 'Stupnjevi pomisli', t: `Oci razlikuju korake kojima pomisao osvaja čovjeka. Prilog (προσβολή) je prva slika ili riječ koja se javi u umu, i ona još nije grijeh. Sočetanije (συνδυασμός) je kad s njom počnemo razgovor. Slaganje (συγκατάθεσις) je pristanak volje. Plijen (αἰχμαλωσία) je kad nas pomisao odnese i protiv volje, a strast (πάθος) je kad to postane navika.\n\nZato podvižnici savjetuju da se pomisao presiječe već na prilogu, imenom Isusovim, prije nego što s njom uđemo u razgovor. Sa pomisli se ne raspravlja. Od nje se okreće ka Bogu.`, s: 'Jovan Lestvičnik, Lestvica 15; Marko Podvižnik, O duhovnom zakonu' },
+  vjera: { n: 'Vjera i dijalektika', t: `Rufin i Sokrat Sholastik pričaju da je u Nikeji jedan prosti ispovjednik, bez ikakve škole, za nekoliko rečenica obratio filosofa kome nisu mogli odoljeti ni najučeniji episkopi. Filosof je potom rekao: dok su se sa mnom borili riječima, ja sam riječi odbijao riječima; ali kad je umjesto riječi iz usta izašla sila, riječi nisu mogle odoljeti sili.\n\nDijalektika može da sruši zabludu, ali ne može da rodi vjeru. Vjera se rađa iz susreta sa živim svjedočanstvom.`, s: 'Rufin, Crkvena istorija X, 3; Sokrat Sholastik, Crkvena istorija I, 8' },
   arijanstvo: { n: 'Šta je arijanstvo', t: `Arijanstvo je učenje aleksandrijskog prezvitera Arija (oko 256–336): Sin Božiji nije vječan, nego je stvoren „iz nepostojećeg“, prije vremena i prije svijeta, ali ipak stvoren. Samo je Otac pravi Bog, a Sin je Njegovo najuzvišenije djelo.\n\nArije je htio da sačuva jedinstvo Boga, oslanjajući se na grčku misao da je Bog jedan i nerođen. Prvi vaseljenski sabor u Nikeji (325) osudio je to učenje, ali je arijanstvo još decenijama imalo zaštitnike na carskom dvoru. U Carstvu ga je potisnuo Drugi vaseljenski sabor (Carigrad, 381), a germanski narodi koji su ga primili preko Vulfile napuštali su ga postepeno, sve do 7. vijeka.`, s: 'Sokrat Sholastik, Crkvena istorija I; Epifanije, Panarion 69' },
   obozenje: { n: 'Oboženje (θέωσις)', t: `Atanasije je zapisao: „On je postao čovjek da bismo mi postali bogovi“ (Αὐτὸς γὰρ ἐνηνθρώπησεν, ἵνα ἡμεῖς θεοποιηθῶμεν).\n\nTo ne znači da čovjek postaje Bog po prirodi, nego da po blagodati učestvuje u Božijem životu. Ali to je moguće samo ako je Onaj koji je postao čovjek pravi Bog. Zato je spor u Nikeji bio spor o spasenju: stvorenje ne može drugo stvorenje sjediniti s Bogom.`, s: 'Atanasije, O ovaploćenju Logosa 54' },
   otac: { n: 'Otac je uvijek Otac', t: `Arije je tvrdio da „bijaše kad ne bijaše Sina“, pa da Bog nije uvijek bio Otac. Ali očinstvo nije uloga koju Bog dobija, nego ono što On jeste. Ako je Bog jednom postao Otac, onda se promijenio, a sam Arije ispovijeda da je Bog nepromjenljiv.\n\nAleksandar Aleksandrijski je dodavao: Sin je Riječ i Mudrost Božija. Bog bez Sina bio bi Bog bez Riječi i bez Mudrosti. Zato Crkva ispovijeda da je Sin rođen „prije svih vjekova“, a ne u nekom trenutku.`, s: 'Aleksandar, pismo Aleksandru Solunskom' },
@@ -132,8 +137,10 @@ S.HUB = {
     { id: 'bazilika', n: 'Bazilika, jutarnja služba', bg: 'bazilika' },
     { id: 'dvoriste', n: 'Dvorište, uveče', bg: 'dvoriste' },
     { id: 'arije_sam', n: 'Bazilika, pred večernje', bg: 'bazilika' },
+    { id: 'efrosinija', n: 'Kuća Arijeve pratnje', bg: 'pristaniste' },
+    { id: 'portik', n: 'Portik na trgu', bg: 'portik' },
   ],
-  exit: { n: 'Na Sabor', go: 'atos1', need: 6, lock: 'Atanasije: „Još nisi sve obišao.“' },
+  exit: { n: 'Na Sabor', go: 'atos1', need: 8, lock: 'Atanasije: „Još nisi sve obišao.“' },
 };
 
 S.pristaniste = [
@@ -228,6 +235,81 @@ S.arije_sam = [
   { hub: 1 },
 ];
 
+S.efrosinija = [
+  { bg: 'pristaniste', ch: null },
+  { n: 'Pred kućom u kojoj je odsjela Arijeva pratnja sjedi mlada žena u tamnom maforiju i tiho pjeva iz svitka.' },
+  { s: 'PAMFIL', t: '(šapuće) To je Efrosinija, jedna od njegovih djevica iz Aleksandrije. Kažu da je najbolja pojačica u Bavkalisu.' },
+  { s: 'EFROSINIJA', t: 'Vi ste sa aleksandrijske strane, vidim po pečatu na tablici. Došli ste da vidite gdje spava jeretik?' },
+  { s: 'FILON', t: 'Došao sam da razumijem zašto ga ljudi toliko vole.' },
+  { s: 'EFROSINIJA', t: 'Kad mi je umrla majka, otac Arije je tri noći sjedio pored mene. Nije govorio ništa pametno. Samo je bio tu.' },
+  { s: 'EFROSINIJA', t: 'Naučio me da se molim. Naučio me da je Bog jedan i neshvatljiv, i da Ga ne treba spuštati na zemlju kao paganske bogove.' },
+  { s: 'EFROSINIJA', t: 'A vi ga sutra hoćete da osudite kao zločinca.' },
+  { s: 'FILON', t: '(Ne mogu da je ostavim u zabludi. Ali kako da joj kažem?)' },
+  { choice: [
+    { t: 'Pobij je logikom, korak po korak', do: [
+      { set: 'hladno' },
+      { s: 'FILON', t: 'Moliš li se Hristu?' },
+      { s: 'EFROSINIJA', t: 'Svaki dan.' },
+      { s: 'FILON', t: 'A je li Hristos stvorenje?' },
+      { s: 'EFROSINIJA', t: 'Otac Arije kaže da jeste. Ali najuzvišenije, prvo od svih.' },
+      { s: 'FILON', t: 'Onda se svaki dan moliš stvorenju. Apostol to zove služenjem tvari umjesto Tvorcu. Tvoj otac te je naučio idolopoklonstvu.' },
+      { trez: -1 },
+      { n: 'Efrosinija problijedi. Svitak joj zadrhti u rukama.' },
+      { s: 'PAMFIL', t: '(šapuće) Filone… to je bilo kao šamar.' } ] },
+    { t: 'Postavi joj jedno pitanje, blago', do: [
+      { set: 'blago' },
+      { s: 'FILON', t: 'Ne pitam da bih te pobijedio. Kad si se one noći molila za majku, kome si se molila?' },
+      { s: 'EFROSINIJA', t: 'Hristu. Da je primi k sebi.' },
+      { s: 'FILON', t: 'A može li stvorenje da primi tvoju majku k Bogu? Može li stvorenje da je sjedini s Onim koga ni samo ne dodiruje?' },
+      { n: 'Efrosinija dugo ćuti. Prsti joj se stežu oko svitka.' } ] },
+  ] },
+  { s: 'EFROSINIJA', t: 'Ne znam. Do juče sam znala.' },
+  { s: 'EFROSINIJA', t: 'Idite, notariju. Moram da se pomolim. Samo više ne znam kako.' },
+  { hub: 1 },
+];
+
+S.portik = [
+  { bg: 'portik', ch: null },
+  { n: 'Na portiku kraj trga okupila se gomila. Paganski filosofi su došli da se nadmeću s episkopima, a jedan od njih već satima pobjeđuje sve redom.' },
+  { s: 'PAMFIL', t: 'Kažu da je već trojicu episkopa poslao kući bez riječi. Jednog i bez sandala, ali to je druga priča.' },
+  { s: 'FILOSOF', t: 'Još jedan hrišćanin? Mlad, s tablicom. Dobro. Mladi barem misle prije nego što se uvrijede.' },
+  { s: 'FILOSOF', t: 'Kažete da je Bog jedan, a klanjate se trojici. Kod nas se to zove mnogoboštvo, samo s manje mašte.' },
+  { choice: [
+    { t: '„Bog je jedan po suštini.“', do: [ { s: 'FILOSOF', t: 'Suština! Riječ iz naših škola. Hrišćani pozajmljuju od Platona, pa nas onda zovu bezbožnicima.' } ] },
+    { t: '„Sin je rekao: Ja i Otac jedno smo.“', do: [ { s: 'FILOSOF', t: 'Tvoja knjiga. Ja je ne priznajem. Daj mi razlog, ne citat.' } ] },
+    { t: '„Sunce i njegov sjaj su jedna svjetlost.“', do: [ { s: 'FILOSOF', t: 'Lijepa slika. Pa je li sjaj manji od sunca? Ako jeste, imaš dva boga, većeg i manjeg. Ako nije, gdje je razlika?' } ] },
+  ] },
+  { n: 'Gomila se smije. Osjećaš kako ti crvene uši.' },
+  { s: 'FILOSOF', t: 'Ali to nije najgore. Kažete i da je taj vaš Bog umro na krstu. Bog koji umire? Ni naši pjesnici nisu toliko drski.' },
+  { choice: [
+    { t: '„Umro je po tijelu, ne po Božanstvu.“', do: [ { s: 'FILOSOF', t: 'Pa ko je onda umro? Tijelo bez Boga? Onda nije umro Bog. A ako jeste Bog, onda je Bog trpio. Izaberi, mladiću.' } ] },
+    { t: '„To je tajna.“', do: [ { s: 'FILOSOF', t: 'Tajna! Riječ koju izgovaraju oni kojima je ponestalo argumenata.' } ] },
+    { t: '„Vaskrsao je.“', do: [ { s: 'FILOSOF', t: 'Tako kažu oni koji su ga voljeli. Ja sam vidio mnogo mrtvih, i svi su ostali mrtvi.' } ] },
+  ] },
+  { s: 'FILON', t: '(Šta god kažem, on okrene. Sa Arijem sam imao njegove riječi. Sa ovim čovjekom nemam ništa zajedničko.)' },
+  { choice: [
+    { t: 'Pokušaj još jedan argument', do: [
+      { trez: -1 },
+      { s: 'FILON', t: 'Samo trenutak! Ako je Bog uzrok svega, onda…' },
+      { s: 'FILOSOF', t: 'Onda je uzrok i tvoje zbunjenosti. Sjedi, mladiću. Dobro si se borio.' },
+      { n: 'Smijeh je još glasniji.' } ] },
+    { t: 'Ućuti', do: [ { n: 'Spuštaš tablicu.' } ] },
+  ] },
+  { n: 'Tada iz zadnjeg reda ustaje starac u grubom vunenom ogrtaču. Ruke su mu iskrivljene od rada u rudniku. Nekoliko episkopa pokušava da ga zadrži. Boje se da će ga ismijati.' },
+  { s: 'STARAC', t: 'Pustite me, braćo.' },
+  { s: 'STARAC', t: 'Filosofe, u ime Isusa Hrista, slušaj. Jedan je Bog, Tvorac neba i zemlje i svega vidljivog i nevidljivog. Sve je stvorio silom svoje Riječi i utvrdio Duhom svojim.' },
+  { s: 'STARAC', t: 'Ta Riječ, koju mi zovemo Sinom Božijim, sažalila se na naše zablude. Rodila se od Djeve, živjela među ljudima i umrla za njih. I opet će doći da sudi svemu što smo činili.' },
+  { s: 'STARAC', sym: 'zrak', t: 'Vjeruješ li ovo, filosofe?' },
+  { n: 'Tajac. Filosof dugo gleda u starca.' },
+  { s: 'FILOSOF', t: '… Vjerujem.' },
+  { s: 'FILOSOF', t: 'Dok ste se sa mnom borili riječima, ja sam riječi odbijao riječima. Ali kad je iz ovih usta umjesto riječi izašla sila, riječi nisu mogle da se odupru sili.' },
+  { s: 'FILOSOF', sym: 'golub', t: 'Starče, krsti me.' },
+  { s: 'PAMFIL', t: '(šapuće) Nije rekao ništa što ti nisi znao. Kako je onda…?' },
+  { s: 'FILON', t: '(Ja sam vjeru branio. On od nje živi. To nije isto.)' },
+  { teo: 'vjera' },
+  { hub: 1 },
+];
+
 S.dvoriste = [
   { bg: 'dvoriste', ch: null },
   { n: 'Jevsevije Kesarijski šeta sam, sa kodeksom pod rukom.' },
@@ -274,6 +356,19 @@ S.zidine = [
   { teo: 'obozenje' },
   { n: 'Iz kule se čuje Pamfilovo hrkanje.' },
   { s: 'ATANASIJE', t: 'Barem neko u Nikeji ima mirnu savjest. Idi spavati. Sutra ti treba bistra glava.' },
+  { go: 'noc1' },
+];
+
+S.noc1 = [
+  { bg: 'filon_molitva', ch: null },
+  { cap: 'Noć prije Sabora' },
+  { n: 'Vraćaš se u svoju sobu. Pališ uljanicu, uzimaš brojanicu i klečiš.' },
+  { n: 'Gospode Isuse Hriste, Sine Božiji, pomiluj me.' },
+  { bg: 'soba' },
+  { note: 'Sozercanje. U tišini molitve dolaze pomisli. Oci uče da pomisao osvaja korak po korak: prilog, sočetanije, slaganje, plijen. Presijeci je čim se pojavi, dok je još samo prilog. Molitvene riječi ne sijeci: pusti ih da uđu u srce.' },
+  { mini: 'pomisli:strah' },
+  { teo: 'pomisli' },
+  { n: 'Uljanica dogorijeva. Zaspiš na podu, sa brojanicom u ruci.' },
   { go: 'r1_uvod' },
 ];
 
@@ -434,6 +529,14 @@ S.kenodoksija = [
   ] },
   { teo: 'kenodoksija' },
   { note: 'Kenodoksija ne napada onoga ko gubi, nego onoga ko je upravo pobijedio.' },
+  { go: 'noc2' },
+];
+
+S.noc2 = [
+  { bg: 'soba', ch: null },
+  { cap: 'Noć posle prve sjednice' },
+  { n: 'U sobi je tiho. Ali u glavi još odjekuje aplauz iz hodnika.' },
+  { mini: 'pomisli:slava' },
   { go: 'r2' },
 ];
 
@@ -509,6 +612,42 @@ S.atos3 = [
   { s: 'NIL', t: 'Kad ljekar pogriješi jednu kap u lijeku, je li to sitnica?' },
   { s: 'TEODOR', t: 'Nije.' },
   { s: 'NIL', t: 'Ni ovo nije.' },
+  { go: 'gozba' },
+];
+
+S.gozba = [
+  { bg: 'gozba', ch: null },
+  { card: ['Carska gozba', 'Dvadeset godina Konstantinove vladavine'] },
+  { s: 'JK', t: 'Stražari su stajali u predvorju sa isukanim mačevima, a Božiji ljudi su prolazili između njih bez straha.' },
+  { s: 'JK', t: 'Pomislio bi čovjek da gleda sliku Hristovog Carstva, a ne javu.' },
+  { s: 'PAMFIL', t: '(šapuće) Isti takvi mačevi su do juče… ma, bolje da o tome ne mislim dok jedem.' },
+  { n: 'Car ustaje sa svog ležaja. U dvorani zamuknu razgovori. Konstantin prilazi starom episkopu iz Tebaide.' },
+  { bg: 'poljubac', ch: null },
+  { n: 'Car se saginje i ljubi Pafnutijevo izvađeno oko.' },
+  { s: 'KONSTANTIN', ch: 'none', t: 'Oče, ovo oko si izgubio za Hrista. Ja ljubim ono što si Mu dao.' },
+  { s: 'PAFNUTIJE', ch: 'none', t: 'Care, ljubi Hrista u svakom od nas, i carstvo će ti biti mirno.' },
+  { bg: 'gozba' },
+  { s: 'KONSTANTIN', t: 'Ti si onaj notarij što je uhvatio prezvitera u njegovim riječima. Priđi.' },
+  { s: 'KONSTANTIN', t: 'Reci mi iskreno, mladiću. Zar ne bi bilo bolje da su se svi složili oko riječi koju svi mogu potpisati? Meni treba jedna Crkva, kao što mi treba jedno carstvo.' },
+  { choice: [
+    { t: '„Care, istina nije stvar dogovora.“', do: [
+      { s: 'KONSTANTIN', t: 'Govoriš kao Atanasije. Taj mladi đakon će mi jednog dana zadati mnogo glavobolje.' },
+      { s: 'FILON', t: '(Car još ne zna koliko je u pravu.)' } ] },
+    { t: '„Kako car zapovijedi.“', do: [
+      { trez: -1 },
+      { s: 'KONSTANTIN', t: 'Mudar mladić. Takvi daleko dogure na dvoru.' },
+      { n: 'Preko stola te gleda Pafnutije, svojim jednim okom. Ne kaže ništa.' } ] },
+    { t: 'Ćuti i pokloni se', do: [
+      { s: 'KONSTANTIN', t: 'Ćutiš. I to je odgovor.' } ] },
+  ] },
+  { go: 'noc3' },
+];
+
+S.noc3 = [
+  { bg: 'soba', ch: null },
+  { cap: 'Posljednja noć u Nikeji' },
+  { n: 'Sabor je završen. Sutra Arije odlazi. Ne možeš da zaspiš.' },
+  { mini: 'pomisli:gnjev' },
   { go: 'epilog' },
 ];
 
@@ -520,6 +659,21 @@ S.epilog = [
   { s: 'FILON', t: 'Atanasije, jesmo li pobijedili?', ch: 'none' },
   { s: 'ATANASIJE', t: 'Istina je odbranjena. To nije isto što i pobjeda. Da je on pokleknuo, to bi bila pobjeda.' },
   { s: 'PAMFIL', t: '(pjevuši, pa se prekine) … Moram naučiti neku drugu melodiju.' },
+  { n: 'Na obali, među onima koji ispraćaju brod, stoji Efrosinija. Ne ukrcava se.' },
+  { s: 'EFROSINIJA', t: 'Notariju.' },
+  { s: 'EFROSINIJA', t: 'Cijelu noć sam se molila. I nisam više mogla da kažem „bijaše kad ne bijaše“. Riječi su mi zastajale u grlu.' },
+  { s: 'EFROSINIJA', t: 'Bio si u pravu. Ne idem s njim.' },
+  { if: 'hladno', then: [
+    { s: 'EFROSINIJA', t: 'Ali pobijedio si me kao što se pobjeđuje neprijatelj. Uzeo si mi oca, a gledao si to kao pobjedu.' },
+    { choice: [
+      { t: '„Oprosti mi.“', do: [ { trez: 1 }, { s: 'EFROSINIJA', t: 'Opraštam. Moli se za njega. A ja ću se moliti za vas obojicu.' } ] },
+      { t: '„Istina je važnija od osjećanja.“', do: [ { s: 'EFROSINIJA', t: 'Istina, da. Ali Onaj koji je Istina plakao je nad Lazarom.' } ] },
+    ] },
+  ], else: [
+    { s: 'EFROSINIJA', t: 'Nisi me pobijedio. Pokazao si mi Onoga koga sam voljela, a nisam znala ko je.' },
+  ] },
+  { s: 'EFROSINIJA', sym: 'golub', t: '(tiho pjeva) Svjetlosti tiha svete slave besmrtnoga Oca nebeskoga…' },
+  { n: 'Sunce zalazi. Efrosinija pjeva staru večernju pjesmu, koju je Crkva pjevala još u vrijeme progona, dok brod nestaje na vodi.' },
   { choice: [
     { t: 'Pomoli se tiho za Arija, po imenu', req: 'trez4', lock: 'Ne možeš da se sabereš. Misli su ti još u dvorani.', do: [
       { ch: null }, { n: 'Nema poena. Nema zvuka. Samo brod polako nestaje u sumraku.' }, { teo: 'anatema' } ] },
@@ -548,6 +702,28 @@ S.epilog = [
 ];
 
 const MINI = {
+  pomisli: {
+    sets: {
+      strah: [
+        { t: ['Sutra ćeš se osramotiti.', 'Svi će vidjeti da si samo pisar.', 'Bolje da ćutiš i pustiš Atanasija.'] },
+        { t: ['Arije je pametniji od tebe.', 'On zna Pismo napamet. Ti znaš samo da prepisuješ.', 'Nemaš šta da tražiš u toj dvorani.'] },
+        { g: 1, t: 'Gospode, Ti govori, a ja ću ćutati.' },
+        { t: ['Šta ako je on u pravu?', 'Možda je samo Otac pravi Bog, a Sin…', 'Možda se svi varamo.'] },
+      ],
+      slava: [
+        { t: ['Svi su te danas gledali.', 'Čak se i car okrenuo kad si govorio.', 'Zaslužio si da te zapamte.'] },
+        { t: ['Atanasije te nije ni pohvalio.', 'On hoće svu slavu za sebe.', 'Sutra ćeš mu pokazati ko je bolji.'] },
+        { g: 1, t: 'Ne nama, Gospode, ne nama, nego imenu Tvome daj slavu.' },
+        { t: ['Mogao bi jednog dana biti episkop.', 'Aleksandriji trebaju mladi i pametni.', 'Počni već sada da se ponašaš kao jedan od njih.'] },
+      ],
+      gnjev: [
+        { t: ['Arije je dobio ono što je zaslužio.', 'Neka trune u izgnanstvu.', 'Da je pravde, dobio bi i gore.'] },
+        { t: ['Efrosinija te sada mrzi.', 'Uzeo si joj oca, a nisi joj dao ništa.', 'Nije ni trebalo da je dodiruješ. Uzalud je sve.'] },
+        { g: 1, t: 'Gospode, pomiluj i njega.' },
+        { t: ['Pobijedio si. Odmori se.', 'Nema potrebe za molitvom večeras.', 'Sutra ćeš se pomoliti.'] },
+      ],
+    },
+  },
   price: {
     q: 'Priče Solomonove 8,22–25. Nađi stih koji ruši Arijevo tumačenje.',
     lines: [

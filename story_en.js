@@ -17,6 +17,9 @@ const C = {
   EPISKOP: { n: 'A bishop', p: null },
   JOVAN: { n: 'John the Chronographer', p: 'jovan', f: 'r' },
   PAFNUTIJE: { n: 'Paphnutius of the Thebaid', p: 'pafnutije' },
+  EFROSINIJA: { n: 'Euphrosyne', p: 'efrosinija' },
+  FILOSOF: { n: 'The philosopher', p: 'filosof' },
+  STARAC: { n: 'An old confessor', p: 'starac' },
 };
 
 const EV = {
@@ -37,6 +40,8 @@ const EV = {
 };
 
 const TEO = {
+  pomisli: { n: 'The stages of a thought', t: `The Fathers distinguish the steps by which a thought conquers a man. The suggestion (προσβολή) is the first image or word that appears in the mind, and it is not yet a sin. Coupling (συνδυασμός) is when we begin to converse with it. Assent (συγκατάθεσις) is the consent of the will. Captivity (αἰχμαλωσία) is when the thought carries us off even against our will, and passion (πάθος) is when this becomes a habit.\n\nThat is why the ascetics advise cutting a thought off at the suggestion, with the name of Jesus, before we enter into conversation with it. One does not argue with a thought. One turns from it to God.`, s: 'John Climacus, The Ladder 15; Mark the Ascetic, On the Spiritual Law' },
+  vjera: { n: 'Faith and dialectic', t: `Rufinus and Socrates Scholasticus relate that at Nicaea a simple confessor with no schooling at all converted, in a few sentences, a philosopher whom even the most learned bishops could not withstand. The philosopher said afterward: as long as they fought me with words, I countered words with words; but when power came out of that mouth instead of words, words could not resist power.\n\nDialectic can tear down an error, but it cannot give birth to faith. Faith is born of an encounter with a living witness.`, s: 'Rufinus, Church History X, 3; Socrates Scholasticus, Church History I, 8' },
   arijanstvo: { n: 'What is Arianism', t: `Arianism is the teaching of the Alexandrian presbyter Arius (c. 256–336): the Son of God is not eternal, but was created “from nothing”, before time and before the world, yet still created. Only the Father is true God; the Son is His most exalted work.\n\nArius wanted to protect the oneness of God, drawing on the Greek idea that God is one and unbegotten. The First Ecumenical Council at Nicaea (325) condemned this teaching, yet Arianism kept protectors at the imperial court for decades. Within the Empire it was overcome by the Second Ecumenical Council (Constantinople, 381), while the Germanic peoples who had received it through Ulfilas abandoned it gradually, as late as the 7th century.`, s: 'Socrates Scholasticus, Church History I; Epiphanius, Panarion 69' },
   obozenje: { n: 'Deification (θέωσις)', t: `Athanasius wrote: “He became man that we might become gods” (Αὐτὸς γὰρ ἐνηνθρώπησεν, ἵνα ἡμεῖς θεοποιηθῶμεν).\n\nThis does not mean that man becomes God by nature, but that by grace he shares in God’s life. Yet that is possible only if the One who became man is true God. This is why the dispute at Nicaea was a dispute about salvation: a creature cannot unite another creature with God.`, s: 'Athanasius, On the Incarnation 54' },
   otac: { n: 'The Father is always Father', t: `Arius claimed that “there was when the Son was not”, and so that God was not always Father. But fatherhood is not a role God acquires; it is what He is. If God once became Father, then He changed, and Arius himself confesses that God is unchangeable.\n\nAlexander of Alexandria added: the Son is the Word and Wisdom of God. God without the Son would be God without His Word and without His Wisdom. That is why the Church confesses that the Son is begotten “before all ages”, not at some moment in time.`, s: 'Alexander, Letter to Alexander of Thessalonica' },
@@ -132,8 +137,10 @@ S.HUB = {
     { id: 'bazilika', n: 'The basilica, morning service', bg: 'bazilika' },
     { id: 'dvoriste', n: 'The courtyard, evening', bg: 'dvoriste' },
     { id: 'arije_sam', n: 'The basilica, before vespers', bg: 'bazilika' },
+    { id: 'efrosinija', n: 'The house of Arius’s companions', bg: 'pristaniste' },
+    { id: 'portik', n: 'The portico on the square', bg: 'portik' },
   ],
-  exit: { n: 'To the Council', go: 'atos1', need: 6, lock: 'Athanasius: “You haven’t been everywhere yet.”' },
+  exit: { n: 'To the Council', go: 'atos1', need: 8, lock: 'Athanasius: “You haven’t been everywhere yet.”' },
 };
 
 S.pristaniste = [
@@ -228,6 +235,81 @@ S.arije_sam = [
   { hub: 1 },
 ];
 
+S.efrosinija = [
+  { bg: 'pristaniste', ch: null },
+  { n: 'In front of the house where Arius’s companions are lodging, a young woman in a dark maphorion sits singing quietly from a scroll.' },
+  { s: 'PAMFIL', t: '(whispers) That’s Euphrosyne, one of his virgins from Alexandria. They say she’s the best chanter in Baucalis.' },
+  { s: 'EFROSINIJA', t: 'You are from the Alexandrian side, I can see the seal on your tablet. Have you come to see where the heretic sleeps?' },
+  { s: 'FILON', t: 'I have come to understand why people love him so much.' },
+  { s: 'EFROSINIJA', t: 'When my mother died, Father Arius sat beside me for three nights. He said nothing clever. He was simply there.' },
+  { s: 'EFROSINIJA', t: 'He taught me to pray. He taught me that God is one and beyond understanding, and that we must not drag Him down to earth like the pagan gods.' },
+  { s: 'EFROSINIJA', t: 'And tomorrow you want to condemn him like a criminal.' },
+  { s: 'FILON', t: '(I cannot leave her in error. But how do I tell her?)' },
+  { choice: [
+    { t: 'Refute her with logic, step by step', do: [
+      { set: 'hladno' },
+      { s: 'FILON', t: 'Do you pray to Christ?' },
+      { s: 'EFROSINIJA', t: 'Every day.' },
+      { s: 'FILON', t: 'And is Christ a creature?' },
+      { s: 'EFROSINIJA', t: 'Father Arius says He is. But the most exalted, the first of all.' },
+      { s: 'FILON', t: 'Then every day you pray to a creature. The Apostle calls that serving the creature rather than the Creator. Your father taught you idolatry.' },
+      { trez: -1 },
+      { n: 'Euphrosyne turns pale. The scroll trembles in her hands.' },
+      { s: 'PAMFIL', t: '(whispers) Philo… that was like a slap in the face.' } ] },
+    { t: 'Ask her one question, gently', do: [
+      { set: 'blago' },
+      { s: 'FILON', t: 'I am not asking in order to defeat you. That night, when you prayed for your mother, to whom did you pray?' },
+      { s: 'EFROSINIJA', t: 'To Christ. That He would receive her.' },
+      { s: 'FILON', t: 'And can a creature bring your mother to God? Can a creature unite her with the One it does not itself touch?' },
+      { n: 'Euphrosyne is silent for a long time. Her fingers tighten around the scroll.' } ] },
+  ] },
+  { s: 'EFROSINIJA', t: 'I don’t know. Yesterday I knew.' },
+  { s: 'EFROSINIJA', t: 'Go, notary. I must pray. Only I no longer know how.' },
+  { hub: 1 },
+];
+
+S.portik = [
+  { bg: 'portik', ch: null },
+  { n: 'A crowd has gathered in the portico by the square. Pagan philosophers have come to contend with the bishops, and one of them has been defeating everyone for hours.' },
+  { s: 'PAMFIL', t: 'They say he has already sent three bishops home speechless. One of them without his sandals, but that’s another story.' },
+  { s: 'FILOSOF', t: 'Another Christian? Young, with a tablet. Good. The young at least think before they take offense.' },
+  { s: 'FILOSOF', t: 'You say God is one, yet you worship three. Among us that is called polytheism, only with less imagination.' },
+  { choice: [
+    { t: '“God is one in essence.”', do: [ { s: 'FILOSOF', t: 'Essence! A word from our schools. Christians borrow from Plato, and then call us godless.' } ] },
+    { t: '“The Son said: I and the Father are one.”', do: [ { s: 'FILOSOF', t: 'Your book. I do not recognize it. Give me a reason, not a quotation.' } ] },
+    { t: '“The sun and its radiance are one light.”', do: [ { s: 'FILOSOF', t: 'A lovely image. So is the radiance less than the sun? If so, you have two gods, a greater and a lesser. If not, where is the difference?' } ] },
+  ] },
+  { n: 'The crowd laughs. You feel your ears burning.' },
+  { s: 'FILOSOF', t: 'But that is not the worst. You also say this God of yours died on a cross. A God who dies? Not even our poets are so shameless.' },
+  { choice: [
+    { t: '“He died in the flesh, not in His divinity.”', do: [ { s: 'FILOSOF', t: 'Then who died? A body without God? Then God did not die. And if it was God, then God suffered. Choose, young man.' } ] },
+    { t: '“It is a mystery.”', do: [ { s: 'FILOSOF', t: 'A mystery! The word spoken by those who have run out of arguments.' } ] },
+    { t: '“He rose again.”', do: [ { s: 'FILOSOF', t: 'So say those who loved him. I have seen many dead men, and all of them stayed dead.' } ] },
+  ] },
+  { s: 'FILON', t: '(Whatever I say, he turns it around. With Arius I had his own words. With this man I share nothing.)' },
+  { choice: [
+    { t: 'Try one more argument', do: [
+      { trez: -1 },
+      { s: 'FILON', t: 'Just a moment! If God is the cause of everything, then…' },
+      { s: 'FILOSOF', t: 'Then He is also the cause of your confusion. Sit down, young man. You fought well.' },
+      { n: 'The laughter grows louder.' } ] },
+    { t: 'Fall silent', do: [ { n: 'You lower your tablet.' } ] },
+  ] },
+  { n: 'Then from the back row an old man in a coarse wool cloak rises. His hands are twisted from labor in the mines. Several bishops try to hold him back. They fear he will be mocked.' },
+  { s: 'STARAC', t: 'Let me go, brothers.' },
+  { s: 'STARAC', t: 'Philosopher, in the name of Jesus Christ, hear me. There is one God, Maker of heaven and earth and of all things visible and invisible. He made all things by the power of His Word and established them by His Spirit.' },
+  { s: 'STARAC', t: 'That Word, whom we call the Son of God, took pity on our errors. He was born of a Virgin, lived among men and died for them. And He will come again to judge all that we have done.' },
+  { s: 'STARAC', sym: 'zrak', t: 'Do you believe this, philosopher?' },
+  { n: 'Silence. The philosopher looks at the old man for a long time.' },
+  { s: 'FILOSOF', t: '… I believe.' },
+  { s: 'FILOSOF', t: 'As long as you fought me with words, I countered words with words. But when power came out of this mouth instead of words, words could not resist power.' },
+  { s: 'FILOSOF', sym: 'golub', t: 'Old man, baptize me.' },
+  { s: 'PAMFIL', t: '(whispers) He didn’t say anything you didn’t know. So how did he…?' },
+  { s: 'FILON', t: '(I defended the faith. He lives by it. That is not the same.)' },
+  { teo: 'vjera' },
+  { hub: 1 },
+];
+
 S.dvoriste = [
   { bg: 'dvoriste', ch: null },
   { n: 'Eusebius of Caesarea walks alone, a codex under his arm.' },
@@ -274,6 +356,19 @@ S.zidine = [
   { teo: 'obozenje' },
   { n: 'From the tower comes the sound of Pamphilus snoring.' },
   { s: 'ATANASIJE', t: 'At least someone in Nicaea has a clear conscience. Go to sleep. Tomorrow you need a clear head.' },
+  { go: 'noc1' },
+];
+
+S.noc1 = [
+  { bg: 'filon_molitva', ch: null },
+  { cap: 'The night before the Council' },
+  { n: 'You return to your room. You light the lamp, take your prayer rope and kneel.' },
+  { n: 'Lord Jesus Christ, Son of God, have mercy on me.' },
+  { bg: 'soba' },
+  { note: 'Contemplation. In the silence of prayer, thoughts come. The Fathers teach that a thought conquers step by step: suggestion, coupling, assent, captivity. Cut it off as soon as it appears, while it is still only a suggestion. Do not cut off the words of prayer: let them enter the heart.' },
+  { mini: 'pomisli:strah' },
+  { teo: 'pomisli' },
+  { n: 'The lamp burns down. You fall asleep on the floor, the prayer rope in your hand.' },
   { go: 'r1_uvod' },
 ];
 
@@ -434,6 +529,14 @@ S.kenodoksija = [
   ] },
   { teo: 'kenodoksija' },
   { note: 'Vainglory does not attack the one who loses, but the one who has just won.' },
+  { go: 'noc2' },
+];
+
+S.noc2 = [
+  { bg: 'soba', ch: null },
+  { cap: 'The night after the first session' },
+  { n: 'The room is quiet. But the applause from the corridor still echoes in your head.' },
+  { mini: 'pomisli:slava' },
   { go: 'r2' },
 ];
 
@@ -509,6 +612,42 @@ S.atos3 = [
   { s: 'NIL', t: 'When a physician is off by one drop in a medicine, is that a trifle?' },
   { s: 'TEODOR', t: 'No.' },
   { s: 'NIL', t: 'Neither is this.' },
+  { go: 'gozba' },
+];
+
+S.gozba = [
+  { bg: 'gozba', ch: null },
+  { card: ['The imperial banquet', 'Twenty years of Constantine’s reign'] },
+  { s: 'JK', t: 'Guards stood in the vestibule with drawn swords, and the men of God passed between them without fear.' },
+  { s: 'JK', t: 'One might have thought one was seeing an image of Christ’s Kingdom, not waking life.' },
+  { s: 'PAMFIL', t: '(whispers) Swords just like those, only yesterday… no, better not think about that while I’m eating.' },
+  { n: 'The emperor rises from his couch. Conversation in the hall falls silent. Constantine walks over to the old bishop from the Thebaid.' },
+  { bg: 'poljubac', ch: null },
+  { n: 'The emperor bends down and kisses the empty socket of Paphnutius’s eye.' },
+  { s: 'KONSTANTIN', ch: 'none', t: 'Father, you lost this eye for Christ. I kiss what you gave to Him.' },
+  { s: 'PAFNUTIJE', ch: 'none', t: 'Emperor, love Christ in each of us, and your empire will be at peace.' },
+  { bg: 'gozba' },
+  { s: 'KONSTANTIN', t: 'You are the notary who caught the presbyter in his own words. Come here.' },
+  { s: 'KONSTANTIN', t: 'Tell me honestly, young man. Would it not have been better if everyone had agreed on a word they could all sign? I need one Church, just as I need one empire.' },
+  { choice: [
+    { t: '“Emperor, the truth is not a matter of agreement.”', do: [
+      { s: 'KONSTANTIN', t: 'You speak like Athanasius. That young deacon will give me a great many headaches one day.' },
+      { s: 'FILON', t: '(The emperor does not yet know how right he is.)' } ] },
+    { t: '“As the emperor commands.”', do: [
+      { trez: -1 },
+      { s: 'KONSTANTIN', t: 'A wise young man. Such men go far at court.' },
+      { n: 'Across the table Paphnutius watches you with his one eye. He says nothing.' } ] },
+    { t: 'Stay silent and bow', do: [
+      { s: 'KONSTANTIN', t: 'You are silent. That too is an answer.' } ] },
+  ] },
+  { go: 'noc3' },
+];
+
+S.noc3 = [
+  { bg: 'soba', ch: null },
+  { cap: 'The last night in Nicaea' },
+  { n: 'The Council is over. Tomorrow Arius leaves. You cannot sleep.' },
+  { mini: 'pomisli:gnjev' },
   { go: 'epilog' },
 ];
 
@@ -520,6 +659,21 @@ S.epilog = [
   { s: 'FILON', t: 'Athanasius, did we win?', ch: 'none' },
   { s: 'ATANASIJE', t: 'The truth was defended. That is not the same as winning. If he had yielded, that would have been a victory.' },
   { s: 'PAMFIL', t: '(hums, then stops himself) … I need to learn a different tune.' },
+  { n: 'On the shore, among those seeing the ship off, stands Euphrosyne. She does not go aboard.' },
+  { s: 'EFROSINIJA', t: 'Notary.' },
+  { s: 'EFROSINIJA', t: 'I prayed all night. And I could no longer say “there was when He was not.” The words stuck in my throat.' },
+  { s: 'EFROSINIJA', t: 'You were right. I am not going with him.' },
+  { if: 'hladno', then: [
+    { s: 'EFROSINIJA', t: 'But you defeated me the way one defeats an enemy. You took my father from me, and you saw it as a victory.' },
+    { choice: [
+      { t: '“Forgive me.”', do: [ { trez: 1 }, { s: 'EFROSINIJA', t: 'I forgive you. Pray for him. And I will pray for you both.' } ] },
+      { t: '“The truth matters more than feelings.”', do: [ { s: 'EFROSINIJA', t: 'The truth, yes. But the One who is the Truth wept over Lazarus.' } ] },
+    ] },
+  ], else: [
+    { s: 'EFROSINIJA', t: 'You did not defeat me. You showed me the One I loved without knowing who He was.' },
+  ] },
+  { s: 'EFROSINIJA', sym: 'golub', t: '(sings quietly) O gladsome Light of the holy glory of the immortal Father…' },
+  { n: 'The sun is setting. Euphrosyne sings the ancient evening hymn, which the Church sang already in the time of persecution, as the ship vanishes over the water.' },
   { choice: [
     { t: 'Pray quietly for Arius, by name', req: 'trez4', lock: 'You cannot collect yourself. Your thoughts are still in the hall.', do: [
       { ch: null }, { n: 'No points. No sound. Only the ship slowly vanishing into the dusk.' }, { teo: 'anatema' } ] },
@@ -548,6 +702,28 @@ S.epilog = [
 ];
 
 const MINI = {
+  pomisli: {
+    sets: {
+      strah: [
+        { t: ['Tomorrow you will disgrace yourself.', 'Everyone will see that you are only a scribe.', 'Better to keep quiet and leave it to Athanasius.'] },
+        { t: ['Arius is cleverer than you.', 'He knows Scripture by heart. You only know how to copy it.', 'You have no business in that hall.'] },
+        { g: 1, t: 'Lord, You speak, and I will be silent.' },
+        { t: ['What if he is right?', 'Perhaps only the Father is true God, and the Son…', 'Perhaps we are all mistaken.'] },
+      ],
+      slava: [
+        { t: ['Everyone was watching you today.', 'Even the emperor turned when you spoke.', 'You deserve to be remembered.'] },
+        { t: ['Athanasius did not even praise you.', 'He wants all the glory for himself.', 'Tomorrow you will show him who is better.'] },
+        { g: 1, t: 'Not to us, O Lord, not to us, but to Your name give glory.' },
+        { t: ['One day you could be a bishop.', 'Alexandria needs young, clever men.', 'Start behaving like one of them now.'] },
+      ],
+      gnjev: [
+        { t: ['Arius got what he deserved.', 'Let him rot in exile.', 'If there were justice, he would get worse.'] },
+        { t: ['Euphrosyne hates you now.', 'You took her father and gave her nothing.', 'You should never have touched her. It was all in vain.'] },
+        { g: 1, t: 'Lord, have mercy on him too.' },
+        { t: ['You won. Rest.', 'There is no need to pray tonight.', 'You will pray tomorrow.'] },
+      ],
+    },
+  },
   price: {
     q: 'Proverbs 8:22–25. Find the verse that overturns Arius’s reading.',
     lines: [
