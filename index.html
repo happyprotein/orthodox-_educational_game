@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ni jote — Slučaj I</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+SC:wght@500;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* VOICE: grave, warm, a little wry — a monk reading council acts by lamplight
+   IDEA: a Palaiologan fresco wall that the trial plays out on; UI is plaster, gold leaf and wax
+   PICTURE: full-bleed fresco scenes, cut-out fresco portraits, dialogue on an ornamented plaster band
+   COLOUR and TYPE: ink #1b1410, gold leaf #c9a24a, terracotta #9c3b22, lapis #23365e, plaster #efe4c8; Cinzel for names, Noto Serif (Greek-capable) for speech
+   LAYOUT: fixed 16:9 stage scaled to fit; HUD top, portrait centre, dialogue band bottom, modals over a dimmed wall */
+:root{--disp:Cinzel,"Noto Serif",serif;color-scheme:dark;--ink:#1b1410;--gold:#c9a24a;--terra:#9c3b22;--lapis:#23365e;--plaster:#efe4c8;--plaster2:#e2d3ad}
+:root:lang(sr-Cyrl){--disp:"Cormorant SC","Noto Serif",serif}
+:root:lang(sr-Cyrl) #title h1{font-size:112px}:root:lang(sr-Cyrl) #name{font-size:21px;padding-top:4px}:root:lang(sr-Cyrl) .mt span{font-size:14px;font-weight:700}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;height:100%;background:#120d0a;overflow:hidden}
+body{font:20px/1.5 "Noto Serif",Georgia,serif;color:var(--ink)}
+#wrap{position:fixed;inset:0;display:grid;place-items:center}
+#stage{position:absolute;width:1280px;height:720px;left:50%;top:50%;transform-origin:center;overflow:hidden;background:#000;user-select:none}
+.bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity .6s}
+#bg2{opacity:0}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,transparent 55%,rgba(10,6,3,.55));pointer-events:none}
+#por{position:absolute;left:50%;bottom:150px;height:560px;transform:translateX(-50%);filter:drop-shadow(0 10px 18px rgba(0,0,0,.55));transition:opacity .3s,transform .3s;opacity:0}
+#por.on{opacity:1}
+#por.think{filter:drop-shadow(0 10px 18px rgba(0,0,0,.55)) brightness(.92)}
+.shake{animation:psh .5s}
+@keyframes psh{0%,100%{transform:translateX(-50%)}15%{transform:translate(calc(-50% - 16px),3px) rotate(-1deg)}30%{transform:translate(calc(-50% + 14px),-4px) rotate(1deg)}45%{transform:translate(calc(-50% - 10px),2px)}60%{transform:translate(calc(-50% + 7px),-2px)}80%{transform:translate(calc(-50% - 3px),0)}}
+@keyframes sh{0%,100%{transform:translate(0)}20%{transform:translate(-14px,4px)}40%{transform:translate(12px,-6px)}60%{transform:translate(-8px,3px)}80%{transform:translate(5px,-2px)}}
+#box{position:absolute;left:40px;right:40px;bottom:18px;height:190px;border-style:solid;border-width:26px 0;border-image:url(assets/ui/okvir.jpg) 95 0 95 0 fill / 26px 0 26px 0 round stretch;padding:14px 46px 10px;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.6)}
+#name{position:absolute;left:38px;top:-50px;background:var(--terra);color:#f4e2b5;font:700 19px var(--disp);letter-spacing:.04em;padding:6px 20px 5px;border:2px solid var(--gold);border-radius:3px;box-shadow:0 3px 8px rgba(0,0,0,.4)}
+#name:empty{display:none}
+#txt{font-size:21px;line-height:1.5;min-height:90px}
+#txt.th{font-style:italic;color:#4a3a2a}
+#txt.na{font-style:italic;color:#3b2d20}
+#more{position:absolute;right:30px;bottom:6px;color:var(--terra);font-size:18px;animation:bl 1.1s infinite}
+@keyframes bl{50%{opacity:.2}}
+#ctrl{position:absolute;left:46px;right:46px;bottom:4px;display:none;gap:10px;justify-content:flex-end;align-items:center}
+#ctrl.on{display:flex}
+#stno{margin-right:auto;font:500 15px var(--disp);color:var(--terra)}
+button{font:600 16px "Noto Serif",serif;color:#f6ead0;background:var(--lapis);border:2px solid var(--gold);border-radius:4px;padding:8px 16px;min-height:40px;cursor:pointer;box-shadow:0 2px 0 #0e1830}
+button:hover{background:#2e4677}button:focus-visible{outline:3px solid #f3d27a;outline-offset:2px}
+button.r{background:var(--terra);box-shadow:0 2px 0 #5a2112}button.r:hover{background:#b44a2c}
+button:disabled{opacity:.45;cursor:not-allowed}
+#hud{position:absolute;left:16px;top:12px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.mt{display:flex;gap:2px;align-items:center;background:rgba(27,20,16,.55);padding:3px 10px 3px 8px;border-radius:24px}
+.mt span{font:500 13px var(--disp);color:#e9d7a8;margin-right:6px;width:92px}
+.mt img{width:34px;height:34px;object-fit:contain;transition:filter .4s,opacity .4s}
+.mt img.off{filter:grayscale(1) brightness(.5);opacity:.45}
+#pov{display:none}#pov.on{display:flex}
+#tools{position:absolute;right:16px;top:12px;display:flex;gap:8px;z-index:5}
+#tools button{font-size:15px;padding:6px 14px}
+.badge{display:inline-block;margin-left:6px;background:var(--gold);color:var(--ink);border-radius:10px;padding:0 7px;font-size:13px}
+#cap{position:absolute;left:50%;top:70px;transform:translateX(-50%);font:500 22px var(--disp);color:#f6e7c1;text-shadow:0 2px 8px #000;opacity:0;transition:opacity .8s;white-space:nowrap}
+#cap.on{opacity:1}
+.ov{position:absolute;inset:0;background:rgba(14,9,6,.72);display:none;place-items:center;z-index:20}
+.ov.on{display:grid}
+.card{background:var(--plaster);border:3px solid var(--gold);border-radius:6px;box-shadow:0 12px 40px rgba(0,0,0,.7);padding:26px 32px;max-width:860px;width:calc(100% - 120px);max-height:640px;overflow:auto;position:relative}
+.card h2{font:700 26px/1.15 var(--disp);margin:0 0 12px;color:var(--terra)}
+.card p{margin:.4em 0}
+.choices{display:flex;flex-direction:column;gap:12px;width:760px}
+.choices button{font-size:19px;text-align:left;padding:14px 22px;background:rgba(239,228,200,.96);color:var(--ink);box-shadow:0 3px 0 #8b7347}
+.choices button:hover{background:#fff6dc}
+.choices button.lk{opacity:.7;font-style:italic;background:rgba(160,150,130,.9)}
+.choices .q{font:600 20px var(--disp);color:#f3e2b4;text-align:center;margin-bottom:6px;text-shadow:0 2px 6px #000}
+.book{position:relative;width:1080px;height:720px;background:center/100% 100% no-repeat;filter:drop-shadow(0 18px 40px rgba(0,0,0,.7))}
+.pg{position:absolute;display:flex;flex-direction:column}
+#kod .book{background-image:url(assets/ui/kodeks_knjiga.jpg)}
+#kod .pl{left:21%;top:15%;width:25.5%;height:70%}
+#kod .pr{left:55%;top:15%;width:26%;height:70%}
+.bh{font:700 24px/1.1 var(--disp);color:var(--terra);margin:0 0 10px;text-align:center}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-content:start;overflow:auto}
+.it{aspect-ratio:3/2;background:url(assets/ui/slot.jpg) center/100% 100%;border:2px solid transparent;border-radius:4px;display:grid;place-items:center;cursor:pointer}
+.it img{width:62%;height:62%;object-fit:contain;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.it:hover,.it.sel{border-color:var(--terra);box-shadow:0 0 0 2px rgba(201,162,74,.6)}
+.it:focus-visible{outline:3px solid var(--terra)}
+#kodD{flex:1;overflow:auto;text-align:center;font-size:16px;line-height:1.45}
+#kodD img{width:150px;height:120px;object-fit:contain;display:block;margin:4px auto 6px}
+#kodD h3{font:700 21px/1.15 var(--disp);color:var(--terra);margin:0 0 8px}
+#kodD .em{font-style:italic;color:#6b5236;margin-top:40px}
+.bk{display:flex;gap:10px;justify-content:center;margin-top:10px}
+#teo .book{background-image:url(assets/ui/teo_knjiga.jpg)}
+#teo .book.gold{background-image:url(assets/ui/teo_zlatna.jpg)}
+#teo .pl{left:14%;top:22.5%;width:26.5%;height:57%}
+#teo .pr{left:58%;top:22.5%;width:26.5%;height:57%}
+#teo .book.gold .pl{left:14.5%;top:22%;width:29%;height:61%}
+#teo .book.gold .pr{left:46%;top:22%;width:40%;height:61%}
+#teoM{width:100%;aspect-ratio:3/2;object-fit:cover;border:2px solid #a8842f;box-shadow:0 2px 6px rgba(0,0,0,.25);flex:none}
+#teoL{display:flex;flex-direction:column;gap:2px;margin-top:10px;overflow:auto}
+#teoL button{all:unset;cursor:pointer;font-size:14px;line-height:1.35;color:#3b2d20;padding:2px 6px;border-radius:3px}
+#teoL button:hover,#teoL button:focus-visible{background:rgba(201,162,74,.3)}
+#teoL button.cur{color:var(--terra);font-weight:600}
+#teoL button.g::before{content:"✦ ";color:#a8842f}
+#teoH{font:700 21px/1.15 var(--disp);color:#7a2c17;margin:0 0 8px;flex:none}
+#teoP{flex:1;overflow:auto;white-space:pre-line;font-size:15px;line-height:1.45;padding-right:4px}
+.book.gold #teoP{font-size:16px}
+#teoS{font-size:13px;color:#6b5236;margin-top:6px;font-style:italic;flex:none}
+.xb{position:absolute;right:20px;top:14px;min-height:36px;padding:4px 14px}
+.grid0{display:grid}
+.row{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+#give .card{text-align:center;max-width:560px}
+#give img{width:150px;height:130px;object-fit:contain}
+.tag{font:500 14px var(--disp);color:var(--terra);letter-spacing:.05em}
+#toast{position:absolute;right:16px;top:64px;z-index:30;display:flex;flex-direction:column;gap:6px;align-items:flex-end;pointer-events:none}
+.ts{background:rgba(27,20,16,.88);color:#f3e2b4;border:1px solid var(--gold);padding:7px 14px;border-radius:4px;font-size:15px;animation:tin 3.2s forwards}
+@keyframes tin{0%{opacity:0;transform:translateY(-6px)}10%,80%{opacity:1;transform:none}100%{opacity:0}}
+#splash{position:absolute;inset:0;z-index:25;display:none;place-items:center;background:url(assets/ui/splash.jpg) center/cover}
+#splash.on{display:grid;animation:sp .9s forwards}
+#splash b{font:700 120px var(--disp);color:var(--terra);text-shadow:0 0 0 #000,4px 4px 0 #f3e2b4;transform:rotate(-6deg)}
+@keyframes sp{0%{opacity:0;transform:scale(1.15)}15%{opacity:1;transform:scale(1)}80%{opacity:1}100%{opacity:0}}
+#title,#endscr,#cardscr{position:absolute;inset:0;z-index:40;display:none;place-items:center;text-align:center;color:#f6e7c1;background:rgba(18,12,8,.55)}
+#title.on,#endscr.on,#cardscr.on{display:grid}
+#title h1{font:700 118px/1 var(--disp);margin:0;text-shadow:0 4px 18px #000;color:#f3dfa6}
+#title .sub{font:500 26px var(--disp);margin:10px 0 34px;text-shadow:0 2px 8px #000}
+#title .gr{font-size:22px;opacity:.9;text-shadow:0 2px 6px #000}
+#title .bt{display:flex;gap:16px;justify-content:center}
+#title button{font-size:20px;padding:12px 30px}
+.lng{display:flex;gap:8px;justify-content:center;margin-top:18px}.lng button{font-size:15px;padding:5px 14px;min-height:34px;background:rgba(27,20,16,.6)}.lng button.on{background:var(--terra)}
+.small{font-size:14px;opacity:.75;margin-top:26px;text-shadow:0 1px 4px #000}
+#cardscr{background:rgba(18,12,8,.82);cursor:pointer}
+#cardscr .a{font:500 24px var(--disp);color:var(--gold);letter-spacing:.12em}
+#cardscr .b{font:700 54px/1.1 var(--disp);margin-top:10px}
+#endscr{background:rgba(18,12,8,.86)}
+#endscr h2{font:700 54px var(--disp);margin:0 0 10px;color:#f3dfa6}
+#endscr p{font-size:20px;margin:.3em 0}
+.tease{margin-top:26px;font:500 24px var(--disp);color:var(--gold)}
+.ln{display:block;width:100%;text-align:left;background:#f7eedb;color:var(--ink);border:2px solid #cbb486;margin:8px 0;font-size:19px;box-shadow:none}
+.ln:hover{background:#fff7e6;border-color:var(--terra)}
+.ln b{color:var(--terra);margin-right:10px}
+.gk{font-size:24px;line-height:2.1}
+.gk span{cursor:pointer;padding:2px 3px;border-radius:3px}
+.gk span:hover{background:#f3d27a}
+.lt{font-size:64px;display:flex;justify-content:center;gap:4px;margin:16px 0}
+.lt span{cursor:pointer;padding:0 6px;border-radius:4px;border:2px solid transparent}
+.lt span:hover{border-color:var(--terra);background:#fff3d0}
+.msg{min-height:28px;color:var(--terra);font-style:italic;margin-top:8px}
+#stage.menu #box,#stage.menu #hud,#stage.menu #tools,#stage.menu #por{visibility:hidden}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+  <div class="bg" id="bg1"></div><div class="bg" id="bg2"></div><div id="vig"></div>
+  <img id="por" alt="">
+  <div id="cap"></div>
+  <div id="hud">
+    <div class="mt" id="trz"></div>
+    <div class="mt" id="pov"></div>
+  </div>
+  <div id="tools"><button id="bM"></button><button id="bS"></button><button id="bK"><span data-u="kodeks"></span><span class="badge" id="nK">0</span></button><button id="bT"><span data-u="teo"></span><span class="badge" id="nT">0</span></button></div>
+  <div id="box"><div id="name"></div><div id="txt"></div><div id="more">▼</div>
+    <div id="ctrl"><span id="stno"></span><button id="bPrev" aria-label="◀">◀</button><button id="bNext" aria-label="▶">▶</button><button id="bPress" data-u="press"></button><button id="bPres" class="r" data-u="present"></button></div>
+  </div>
+  <div class="ov" id="chov"><div class="choices" id="chs"></div></div>
+  <div class="ov" id="kod"><div class="book"><div class="pg pl"><div class="bh" id="kodH">Kodeks</div><div class="grid" id="kodG"></div></div><div class="pg pr"><div id="kodD"></div><div class="bk"><button id="kodX" data-u="close"></button><button id="kodP" class="r" style="display:none" data-u="presentShort"></button></div></div></div></div>
+  <div class="ov" id="teo"><div class="book" id="teoB"><div class="pg pl"><img id="teoM" alt=""><div id="teoL"></div></div><div class="pg pr"><div id="teoH"></div><div id="teoP"></div><div id="teoS"></div></div><button class="xb" id="teoX" data-u="close"></button></div></div>
+  <div class="ov" id="give"><div class="card"><div class="tag" data-u="newEv"></div><img id="gI" alt=""><h2 id="gN"></h2><p id="gD"></p><div class="row" style="justify-content:center"><button id="gX" data-u="next"></button></div></div></div>
+  <div class="ov" id="note"><div class="card" style="max-width:640px"><p id="noteT"></p><div class="row"><button id="noteX" data-u="ok"></button></div></div></div>
+  <div class="ov" id="mini"><div class="card" id="miniC"></div></div>
+  <div id="toast"></div>
+  <div id="splash"><b data-u="stani"></b></div>
+  <div id="cardscr"><div><div class="a" id="cA"></div><div class="b" id="cB"></div><div class="small" data-u="clickCont"></div></div></div>
+  <div id="title"><div>
+    <h1 data-u="title"></h1>
+    <div class="gr">οὐδὲ ἰῶτα ἕν</div>
+    <div class="sub" data-u="sub"></div>
+    <div class="bt"><button id="bStart" class="r" data-u="start"></button><button id="bCont" style="display:none" data-u="cont"></button></div>
+    <div class="lng lat" id="lng"><button data-l="cyr">Ћирилица</button><button data-l="lat">Latinica</button><button data-l="en">English</button></div>
+    <div class="small" data-u="proto"></div>
+  </div></div>
+  <div id="endscr"><div><h2 data-u="endH"></h2><p id="endS"></p><p id="endT"></p><div class="tease" data-uh="tease"></div><div class="row" style="justify-content:center;margin-top:28px"><button id="bAgain" class="r" data-u="again"></button><button id="bEndT" data-u="openTeo"></button></div></div></div>
+</div></div>
+<script src="story.js"></script>
+<script src="story_en.js"></script>
+<script>
+{
+// ---------- script (pismo) ----------
+let LANG='cyr';try{const v=localStorage.getItem('nijote_pismo');if(v==='lat'||v==='en'||v==='cyr')LANG=v}catch(e){}
+if(location.hash==='#latinica')LANG='lat';if(location.hash==='#cirilica')LANG='cyr';if(location.hash==='#english')LANG='en';
+const CYR=LANG==='cyr',EN=LANG==='en';
+if(EN)window.STORY=window.STORY_EN;
+document.documentElement.lang=EN?'en':CYR?'sr-Cyrl':'sr-Latn';
+const UI={sr:{trez:'Trezvenost',trezT:'Trezvenost (νῆψις)',pov:'Povjerenje',povT:'Povjerenje Sabora',kodeks:'Kodeks',teo:'Teologikon',press:'Pritisni',present:'Iznesi dokaz',presentShort:'Iznesi',close:'Zatvori',newEv:'Novi dokaz u kodeksu',next:'Dalje',ok:'Razumijem',stani:'Stani!',clickCont:'klikni za nastavak',title:'Ni jote',sub:'Slučaj I · Nikeja, 325.',start:'Počni',cont:'Nastavi',proto:'Prototip. Pravoslavna apologetska igra u maniru vizantijske freske.',endH:'Kraj Slučaja I',tease:'Slučaj II — Carigrad, 381.<br>Duh koji neće da bude imenovan.',again:'Igraj ponovo',openTeo:'Otvori Teologikon',soundOn:'Zvuk: da',soundOff:'Zvuk: ne',musOn:'Pojanje: da',musOff:'Pojanje: ne',trezUp:'Trezvenost raste',trezDown:'Trezvenost opada',povUp:'Povjerenje Sabora raste',teoT:'Teologikon: „{0}“',where:'Kuda dalje?',hubIntro:'Nikeja je puna episkopa, svitaka i glasina. Gdje ćeš prvo?',seen:'Ovdje si već sve vidio.',na:'Nije dostupno',pick:'Izaberi dokaz',pickEm:'Izaberi dokaz koji ćeš iznijeti.',readEm:'Izaberi dokaz da ga pročitaš.',empty:'Kodeks je još prazan.',teoEmpty:'Još nijedna stranica nije otključana. Stranice se otvaraju kako rješavaš slučaj.',src:'Izvor: ',stmt:'izjava',povLost:'Povjerenje Sabora je izgubljeno',nilFail:'Polako, Teodore. Jedna stranica dnevno. Pročitaj ponovo.',jClick:'Klikni riječ u kojoj je greška.',jOusia:'Ova jota pripada riječi οὐσία, suština. Traži onu koja je višak.',jLetter:'Ovo slovo je na mjestu.',jSusp:'Riječ je sumnjiva. Koje slovo ne pripada?',jWord:'Ova riječ je ispravna.',tr:'Prevod Simvola: ',endS:'Trezvenost na kraju: {0}/5 · Dokaza u kodeksu: {1}/{2}',endT:'Teologikon: {0}/{1} stranica',endSp:' (od toga posebnih: {0}/{1})',endNo:' · posebne stranice su ostale zaključane',docTitle:'Ni jote — Slučaj I'},
+en:{trez:'Sobriety',trezT:'Sobriety (νῆψις)',pov:'Trust',povT:'The Council’s trust',kodeks:'Codex',teo:'Theologikon',press:'Press',present:'Present evidence',presentShort:'Present',close:'Close',newEv:'New evidence in the codex',next:'Continue',ok:'Understood',stani:'Hold!',clickCont:'click to continue',title:'Not One Iota',sub:'Case I · Nicaea, 325',start:'Begin',cont:'Continue',proto:'Prototype. An Orthodox apologetics game in the manner of a Byzantine fresco.',endH:'End of Case I',tease:'Case II — Constantinople, 381.<br>The Spirit who would not be named.',again:'Play again',openTeo:'Open the Theologikon',soundOn:'Sound: on',soundOff:'Sound: off',musOn:'Chant: on',musOff:'Chant: off',trezUp:'Sobriety rises',trezDown:'Sobriety falls',povUp:'The Council’s trust rises',teoT:'Theologikon: “{0}”',where:'Where to next?',hubIntro:'Nicaea is full of bishops, scrolls and rumors. Where will you go first?',seen:'You have seen everything here.',na:'Not available',pick:'Choose evidence',pickEm:'Choose the evidence to present.',readEm:'Choose a piece of evidence to read it.',empty:'The codex is still empty.',teoEmpty:'No page has been unlocked yet. Pages open as you solve the case.',src:'Source: ',stmt:'statement',povLost:'The Council’s trust is lost',nilFail:'Slowly, Theodore. One page a day. Read it again.',jClick:'Click the word that contains the error.',jOusia:'This iota belongs to οὐσία, essence. Find the one that does not belong.',jLetter:'This letter is where it should be.',jSusp:'This word is suspicious. Which letter does not belong?',jWord:'This word is correct.',tr:'The Creed in English: ',endS:'Sobriety at the end: {0}/5 · Evidence in the codex: {1}/{2}',endT:'Theologikon: {0}/{1} pages',endSp:' (special pages: {0}/{1})',endNo:' · the special pages remained locked',docTitle:'Not One Iota — Case I'}};
+function u(k,...a){let t=(EN?UI.en:UI.sr)[k]??k;a.forEach((v,i)=>{t=t.replace('{'+i+'}',v)});return t}
+const KEEP=/(Lex orandi, lex credendi|lex orandi|lex credendi|(?<=(?:Slučaj|Slučaja|Rasprava|arijanaca|Случај|Случаја|Расправа|аријанаца) )(?:III|II|I)(?![A-Za-zА-я]))/;
+const L1={A:'А',B:'Б',V:'В',G:'Г',D:'Д',Đ:'Ђ',E:'Е',Ž:'Ж',Z:'З',I:'И',J:'Ј',K:'К',L:'Л',M:'М',N:'Н',O:'О',P:'П',R:'Р',S:'С',T:'Т',Ć:'Ћ',U:'У',F:'Ф',H:'Х',C:'Ц',Č:'Ч',Š:'Ш'};
+const L2={LJ:'Љ',Lj:'Љ',lj:'љ',NJ:'Њ',Nj:'Њ',nj:'њ',DŽ:'Џ',Dž:'Џ',dž:'џ'};
+const NOD=/^(nadž|podž|odž|nadži|predž)/i;
+function cyrPart(t){return t.replace(/(LJ|Lj|lj|NJ|Nj|nj|DŽ|Dž|dž|[A-Za-zĐđŽžĆćČčŠš])/g,m=>{if(L2[m])return L2[m];const u=m.toUpperCase(),c=L1[u]||m;return m===u?c:c.toLowerCase()})}
+function cyr(t){if(!t||!/[A-Za-zčćžšđČĆŽŠĐ]/.test(t))return t;return t.split(KEEP).map((x,i)=>i%2?x:cyrPart(x)).join('')}
+if(CYR){
+  const TK=new Set(['t','n','d','q','lock','note','cap','card','title','st','lines','miss','tr']);
+  const walk=(o,k)=>{if(typeof o==='string')return TK.has(k)?cyr(o):o;if(Array.isArray(o))return o.map(x=>walk(x,k));if(o&&typeof o==='object'){for(const key in o)o[key]=walk(o[key],key);return o}return o};
+  const ST=window.STORY;
+  for(const k in ST.TEO)ST.TEO[k].s=cyr(ST.TEO[k].s);
+  for(const id in ST.S.T)for(const Ly of ST.S.T[id].layers)if(Ly.rep)Ly.rep[1]=cyr(Ly.rep[1]);
+  walk(ST,'');
+  const conv=n=>{if(n.nodeType===3){if(n.parentElement&&n.parentElement.closest('.lat'))return;const v=cyr(n.nodeValue);if(v!==n.nodeValue)n.nodeValue=v}else if(n.nodeType===1&&!n.classList.contains('lat')){for(const ch of n.childNodes)conv(ch)}};
+  document.addEventListener('DOMContentLoaded',()=>{});
+  const stg=document.getElementById('stage');conv(stg);
+  new MutationObserver(ms=>{for(const m of ms){if(m.type==='characterData')conv(m.target);else m.addedNodes.forEach(conv)}}).observe(stg,{subtree:true,childList:true,characterData:true});
+}
+// ---------- audio ----------
+const AU={ctx:null,on:true,master:null};
+try{if(localStorage.getItem('nijote_zvuk')==='0')AU.on=false}catch(e){}
+function ac(){if(!AU.ctx){try{const c=new (window.AudioContext||window.webkitAudioContext)();const lp=c.createBiquadFilter();lp.type='lowpass';lp.frequency.value=3200;const g=c.createGain();g.gain.value=.9;g.connect(lp).connect(c.destination);AU.ctx=c;AU.master=g}catch(e){}}
+  if(AU.ctx&&AU.ctx.state==='suspended')AU.ctx.resume().catch(()=>{});return AU.ctx}
+function tone(f,dur,type,vol,when,slide){const c=AU.ctx;if(!c||!AU.on)return;const t=c.currentTime+(when||0);const o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(slide)o.frequency.exponentialRampToValueAtTime(f*slide,t+dur);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+.006);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);o.connect(g).connect(AU.master);o.start(t);o.stop(t+dur+.03)}
+function noise(dur,vol,fr,when){const c=AU.ctx;if(!c||!AU.on)return;const t=c.currentTime+(when||0);const b=c.createBuffer(1,Math.floor(c.sampleRate*dur),c.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length);const src=c.createBufferSource();src.buffer=b;const bp=c.createBiquadFilter();bp.type='bandpass';bp.frequency.value=fr;bp.Q.value=.8;const g=c.createGain();g.gain.value=vol;src.connect(bp).connect(g).connect(AU.master);src.start(t)}
+const VOICE={FILON:[520,'triangle'],PAMFIL:[660,'square',.55],ARIJE:[250,'sawtooth',.5],ATANASIJE:[470,'triangle'],OSIJE:[300,'square',.45],ALEKSANDAR:[330,'triangle'],JN:[380,'sawtooth',.45],JK:[350,'triangle'],KONSTANTIN:[210,'square',.5],DOMETIJE:[290,'square',.5],NIKOLAJ:[240,'triangle'],TEODOR:[500,'triangle'],NIL:[230,'triangle',.9],EPISKOP:[320,'square',.45],JOVAN:[270,'triangle',.95],PAFNUTIJE:[235,'square',.5],NAR:[190,'sine',.8],THINK:[520,'sine',.7]};
+let curVoice=VOICE.NAR;
+function blip(){const v=curVoice;tone(v[0]*(1+(Math.random()-.5)*.1),.05,v[1],.06*(v[2]||1))}
+const SFX={
+  stani(){tone(70,.4,'sine',.35,0,.45);[196,247,294,392].forEach((f,i)=>tone(f,.75,'sawtooth',.045,.01*i));noise(.25,.25,900)},
+  give(){tone(988,1,'sine',.09);tone(1480,.8,'sine',.045,.07);tone(1976,.6,'sine',.03,.14)},
+  wrong(){tone(170,.45,'sawtooth',.08,0,.6);tone(120,.55,'square',.04,.06,.7)},
+  thud(){tone(85,.4,'sine',.3,0,.45);noise(.15,.15,300)},
+  click(){tone(880,.035,'square',.025)},
+  down(){tone(330,.6,'sine',.07,0,.65)},
+  up(){tone(660,.45,'sine',.05);tone(990,.4,'sine',.035,.09)},
+  page(){noise(.3,.35,2500);tone(1320,.5,'sine',.025,.18)},
+  bell(){tone(131,2,'sine',.14);tone(262,1.5,'sine',.05,.01);tone(393,1.2,'triangle',.03,.02);tone(659,.9,'sine',.015,.03)},
+};
+// ---------- music: Byzantine chant (recordings in assets/music/, else synthesized ison + melos) ----------
+const MUS={on:true,cur:null,el:null,syn:null,bad:{},gain:null};
+try{if(localStorage.getItem('nijote_pojanje')==='0')MUS.on=false}catch(e){}
+const BGTRACK={kelija:'atos',biblioteka:'atos',nikeja:'nikeja',pristaniste:'nikeja',odaje:'nikeja',skriptorijum:'nikeja',bazilika:'nikeja',nikolaj_molitva:'nikeja',dvoriste:'nikeja',zidine:'nikeja',hodnik:'nikeja',sala:'sabor',tajac:'tisina',brod:'epilog',sumrak:'epilog'};
+// modes in cents above the ison: soft diatonic (plagal 1st), hard chromatic (plagal 2nd)
+const MODES={
+  atos:{f:146.8,sc:[-200,0,165,300,500,700,865,1000,1200],tempo:1.25,lo:1,hi:6,vol:1},
+  nikeja:{f:146.8,sc:[0,165,300,500,700,865,1000,1200,1365],tempo:.95,lo:2,hi:8,vol:.9},
+  sabor:{f:146.8,sc:[-100,0,100,400,500,700,800,1100,1200],tempo:1.1,lo:1,hi:7,vol:.85},
+  epilog:{f:130.8,sc:[-200,0,200,350,500,700,850,1000,1200],tempo:1.6,lo:1,hi:6,vol:1}};
+function mGain(){const c=AU.ctx;if(!c)return null;if(!MUS.gain){MUS.gain=c.createGain();MUS.gain.gain.value=.55;MUS.gain.connect(AU.master)}return MUS.gain}
+function voice(c,out){// sawtooth through vowel formants ("a"), like a male chanter
+  const o1=c.createOscillator(),o2=c.createOscillator();o1.type=o2.type='sawtooth';o2.detune.value=6;
+  const pre=c.createGain();pre.gain.value=.5;o1.connect(pre);o2.connect(pre);
+  const vib=c.createOscillator(),vd=c.createGain();vib.frequency.value=4.8;vd.gain.value=0;vib.connect(vd);vd.connect(o1.detune);vd.connect(o2.detune);
+  const g=c.createGain();g.gain.value=0;
+  [[650,6,.9],[1080,8,.55],[2450,10,.18]].forEach(([f,q,a])=>{const b=c.createBiquadFilter();b.type='bandpass';b.frequency.value=f;b.Q.value=q;const k=c.createGain();k.gain.value=a;pre.connect(b);b.connect(k);k.connect(g)});
+  g.connect(out);[o1,o2,vib].forEach(o=>o.start());
+  return{o1,o2,g,vd,stop(t){[o1,o2,vib].forEach(o=>{try{o.stop(t)}catch(e){}})}};
+}
+function startSynth(tr){
+  const c=AU.ctx,out=mGain();if(!c||!out)return null;const M=MODES[tr];if(!M)return null;
+  const bus=c.createGain();bus.gain.value=0;bus.connect(out);bus.gain.setTargetAtTime(.9*M.vol,c.currentTime,1.2);
+  const ison=voice(c,bus);ison.o1.frequency.value=ison.o2.frequency.value=M.f;ison.g.gain.setTargetAtTime(.055,c.currentTime,1.5);
+  const br=c.createOscillator(),bg=c.createGain();br.frequency.value=.09;bg.gain.value=.012;br.connect(bg);bg.connect(ison.g.gain);br.start();
+  const mel=voice(c,bus);mel.vd.gain.value=9;
+  const S={bus,ison,mel,br,alive:true,deg:1,t:null};
+  const hz=cents=>M.f*2*Math.pow(2,cents/1200);
+  const step=()=>{if(!S.alive)return;const now=c.currentTime;
+    if(!S.left){S.left=6+Math.floor(Math.random()*5);mel.g.gain.setTargetAtTime(0,now,.4);S.t=setTimeout(()=>{S.left=S.left;tick()},(2500+Math.random()*3500)*M.tempo);S.phr=true;return}
+    tick()};
+  const tick=()=>{if(!S.alive)return;const now=c.currentTime;
+    let d=S.deg+[-2,-1,-1,0,1,1,2][Math.floor(Math.random()*7)];d=Math.max(M.lo,Math.min(M.hi,d));
+    S.left--;if(S.left<=1)d=1;S.deg=d;
+    const f=hz(M.sc[d]);mel.o1.frequency.setTargetAtTime(f,now,.07);mel.o2.frequency.setTargetAtTime(f,now,.07);
+    mel.g.gain.setTargetAtTime(.032,now,.18);
+    const dur=[.9,1.3,1.3,1.8,2.6][Math.floor(Math.random()*5)]*M.tempo*(S.left<=1?1.8:1);
+    S.t=setTimeout(()=>{if(S.left<=0){S.left=0;mel.g.gain.setTargetAtTime(0,c.currentTime,.6);S.left=undefined;S.t=setTimeout(step,(2500+Math.random()*3500)*M.tempo)}else tick()},dur*1000)};
+  S.left=undefined;S.t=setTimeout(step,1200);
+  S.stop=()=>{S.alive=false;clearTimeout(S.t);const t=c.currentTime;bus.gain.setTargetAtTime(0,t,.6);setTimeout(()=>{ison.stop();mel.stop();try{br.stop()}catch(e){}bus.disconnect()},3000)};
+  return S;
+}
+function stopMusic(){if(MUS.syn){MUS.syn.stop();MUS.syn=null}if(MUS.el){const el=MUS.el;MUS.el=null;let v=el.volume;const iv=setInterval(()=>{v-=.05;if(v<=0){clearInterval(iv);el.pause()}else el.volume=v},60)}}
+function music(tr){
+  if(tr===MUS.cur)return;MUS.cur=tr;stopMusic();if(!MUS.on||!tr||tr==='tisina'||!AU.ctx)return;
+  const synth=()=>{if(MUS.cur===tr&&MUS.on&&!MUS.syn&&!MUS.el)MUS.syn=startSynth(tr)};
+  if(MUS.bad[tr]){synth();return}
+  const el=new Audio();el.loop=true;el.volume=0;el.preload='auto';
+  el.onerror=()=>{MUS.bad[tr]=1;if(MUS.el===el)MUS.el=null;synth()};
+  el.src=`assets/music/${tr}.mp3`;MUS.el=el;
+  el.play().then(()=>{let v=0;const iv=setInterval(()=>{v+=.04;if(v>=.6||MUS.el!==el){clearInterval(iv);if(MUS.el===el)el.volume=.6}else el.volume=v},80)}).catch(()=>{if(MUS.el===el){MUS.el=null;MUS.bad[tr]=1;synth()}});
+}
+function mbtn(){document.getElementById('bM').textContent=u(MUS.on?'musOn':'musOff')}
+function sbtn(){const b=document.getElementById('bS');b.textContent=u(AU.on?'soundOn':'soundOff')}
+document.querySelectorAll('[data-u]').forEach(e=>e.textContent=u(e.dataset.u));document.querySelectorAll('[data-uh]').forEach(e=>e.innerHTML=u(e.dataset.uh));document.title=u('docTitle');
+const {C,EV,TEO,S,MINI}=window.STORY;
+const $=id=>document.getElementById(id);
+const stage=$('stage');
+function fit(){const s=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener('resize',fit);fit();
+
+let G,mode='idle',typing=null,fullText='',tm=null,onPick=null,curP=null,bgFlip=false;
+function fresh(){return{trez:5,pov:5,povShow:false,ev:[],teo:[],flags:{},visited:{},scene:null}}
+
+// ---------- persistence (convenience only) ----------
+const KEY='nijote_s1';
+function save(){try{localStorage.setItem(KEY,JSON.stringify(G))}catch(e){}}
+function load(){try{return JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){return null}}
+
+// ---------- HUD ----------
+function hud(){
+  $('trz').title=u('trezT');$('pov').title=u('povT');
+  $('trz').innerHTML='<span>'+u('trez')+'</span>'+[0,1,2,3,4].map(i=>`<img src="assets/ev/uljanica.webp" class="${i<G.trez?'':'off'}" alt="">`).join('');
+  $('pov').innerHTML='<span>'+u('pov')+'</span>'+[0,1,2,3,4].map(i=>`<img src="assets/ev/pecat.webp" class="${i<G.pov?'':'off'}" alt="">`).join('');
+  $('pov').classList.toggle('on',G.povShow);
+  $('nK').textContent=G.ev.length;$('nT').textContent=G.teo.length;
+}
+function toast(t){const d=document.createElement('div');d.className='ts';d.textContent=t;$('toast').appendChild(d);setTimeout(()=>d.remove(),3300)}
+
+// ---------- scene stack ----------
+let stack=[];
+function go(name){if(!S[name]){console.error('no scene',name);return}G.scene=name;stack=[{a:S[name],i:0}];save();next()}
+function push(arr){stack.push({a:arr,i:0})}
+function pull(){while(stack.length){const f=stack[stack.length-1];if(f.i<f.a.length)return f.a[f.i++];stack.pop()}return null}
+function req(r){if(!r)return true;if(r==='trez3')return G.trez>=3;if(r==='trez4')return G.trez>=4;return !!G.flags[r]}
+
+function shakeP(){const p=$('por');p.classList.remove('shake');void p.offsetWidth;p.classList.add('shake')}
+function setBg(k){if(BGTRACK[k]!==undefined&&!document.getElementById('stage').classList.contains('menu'))music(BGTRACK[k]);const a=$(bgFlip?'bg1':'bg2'),b=$(bgFlip?'bg2':'bg1');a.style.backgroundImage=`url(assets/bg/${k}.jpg)`;a.style.opacity=1;b.style.opacity=0;bgFlip=!bgFlip}
+function setPor(p){const el=$('por');if(!p){el.classList.remove('on');curP=null;return}if(curP===p){el.classList.add('on');return}curP=p;el.classList.remove('on');el.src=`assets/ch/${p}.webp`;el.onload=()=>el.classList.add('on')}
+
+function next(){
+  mode='run';
+  for(;;){
+    const c=pull();
+    if(!c){mode='idle';return}
+    if(c.bg){setBg(c.bg)}
+    if('ch' in c && !c.s){setPor(c.ch||null)}
+    if(c.set){G.flags[c.set]=1}
+    if(c.trez!==undefined){const o=G.trez;if(c.trez==='full')G.trezEnd=G.trez;G.trez=c.trez==='full'?5:Math.max(0,Math.min(5,G.trez+c.trez));hud();if(G.trez!==o){toast(u(G.trez>o?'trezUp':'trezDown'));(G.trez>o?SFX.up:SFX.down)()}}
+    if(c.pov!==undefined){if(c.pov==='show'){G.povShow=true;G.pov=5}else{G.pov=Math.max(0,Math.min(5,G.pov+c.pov));if(c.pov>0)toast(u('povUp'))}hud()}
+    if(c.teo){if(!G.teo.includes(c.teo)){G.teo.push(c.teo);hud();toast(u('teoT',TEO[c.teo].n));SFX.page()}}
+    if(c.cap){const e=$('cap');e.textContent=c.cap;e.classList.add('on');setTimeout(()=>e.classList.remove('on'),3800)}
+    if(c.fx==='shake'){SFX.thud();if(c.who&&C[c.who])setPor(C[c.who].p);shakeP()}
+    if(c.fx==='stani'){SFX.stani();const sp=$('splash');sp.classList.remove('on');void sp.offsetWidth;sp.classList.add('on');setTimeout(()=>{sp.classList.remove('on');next()},900);mode='wait';return}
+    if(c.if){push(req(c.if)?c.then:(c.else||[]));continue}
+    if(c.go){go(c.go);return}
+    if(c.s){say(c);return}
+    if(c.n){say({t:c.n,na:1});return}
+    if(c.note){$('noteT').textContent=c.note;$('note').classList.add('on');mode='note';return}
+    if(c.give){if(G.ev.includes(c.give))continue;G.ev.push(c.give);hud();showGive(c.give);return}
+    if(c.card){$('cA').textContent=c.card[0];$('cB').textContent=c.card[1];$('cardscr').classList.add('on');SFX.bell();mode='card';return}
+    if(c.choice){choice(c.choice);return}
+    if(c.hub){hub();return}
+    if(c.testimony){startT(c.testimony);return}
+    if(c.ask){ask(c);return}
+    if(c.mini){mini(c.mini);return}
+    if(c.tmResume){tmShow();return}
+    if(c.end){ending();return}
+  }
+}
+
+// ---------- dialogue ----------
+function say(c){
+  $('ctrl').classList.remove('on');$('more').style.display='';
+  const who=c.s?C[c.s]:null;
+  $('name').textContent=who?who.n:'';
+  if(c.ch==='none')setPor(null);else if(c.ch==='keep'){}else if(who&&who.p)setPor(who.p);else if(who&&!who.p)setPor(null);
+  curVoice=c.na?VOICE.NAR:(VOICE[c.s]||VOICE.NAR);
+  let t=c.t,cls='';
+  if(c.na)cls='na';else if(/^\(/.test(t)){cls='th';if(c.s==='FILON'||c.s==='TEODOR')curVoice=VOICE.THINK;t=t.replace(/^\((.*)\)$/s,'$1')}
+  const tx=$('txt');tx.className=cls;type(t);mode='say';
+}
+function type(t){
+  clearInterval(typing);fullText=t;const tx=$('txt');let i=0;tx.textContent='';
+  const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(rm){tx.textContent=t;typing=null;return}
+  let tk=0;typing=setInterval(()=>{i+=2;tx.textContent=t.slice(0,i);if(tk++%3===0&&/[^\s.,…!?„“"—()-]/.test(t.slice(i-2,i)))blip();if(i>=t.length){clearInterval(typing);typing=null}},16);
+}
+function advance(){
+  if(mode==='say'){if(typing){clearInterval(typing);typing=null;$('txt').textContent=fullText;return}next()}
+  else if(mode==='card'){$('cardscr').classList.remove('on');next()}
+}
+$('box').addEventListener('click',e=>{if(e.target.closest('#ctrl'))return;advance()});
+$('cardscr').addEventListener('click',advance);
+$('noteX').onclick=()=>{$('note').classList.remove('on');next()};
+$('gX').onclick=()=>{$('give').classList.remove('on');next()};
+addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeKod();$('teo').classList.remove('on');return}
+  if(document.querySelector('.ov.on'))return;
+  if(e.key===' '||e.key==='Enter'){e.preventDefault();advance()}
+  if(e.key==='k'||e.key==='K')openKod(false);
+  if(e.key==='t'||e.key==='T')openTeo();
+});
+
+function showGive(k){SFX.give();const e=EV[k];$('gI').src=`assets/ev/${e.i}.webp`;$('gN').textContent=e.n;$('gD').textContent=e.d;$('give').classList.add('on');mode='give'}
+
+// ---------- choices ----------
+function choice(opts,q){
+  mode='choice';
+  $('chs').innerHTML=(q?`<div class="q">${q}</div>`:'')+opts.map((o,i)=>{const ok=req(o.req);return `<button data-i="${i}" class="${ok?'':'lk'}">${ok?o.t:o.t+' — '+(o.lock||'')}</button>`}).join('');
+  $('chov').classList.add('on');
+  $('chs').onclick=e=>{const b=e.target.closest('button');if(!b)return;const o=opts[+b.dataset.i];if(!req(o.req)){toast(o.lock||u('na'));return}
+    SFX.click();$('chov').classList.remove('on');if(o.cb){o.cb();return}push(o.do||[]);next()};
+}
+
+// ---------- hub ----------
+function hub(){
+  setPor(null);$('name').textContent='';$('txt').className='na';curVoice=VOICE.NAR;
+  if(G.cur){G.visited[G.cur]=1;G.cur=null;save()}
+  const H=S.HUB,n=Object.keys(G.visited).length;
+  type(u(n?'where':'hubIntro'));
+  const opts=H.places.map(p=>({t:(G.visited[p.id]?'✓ ':'')+p.n,cb:()=>{
+    if(G.visited[p.id]){setBg(p.bg);push([{n:u('seen')},{hub:1}]);next();return}
+    G.cur=p.id;stack=[{a:S[p.id],i:0}];next()}}));
+  opts.push({t:H.exit.n+(n>=H.exit.need?'':' ('+n+'/'+H.exit.need+')'),req:n>=H.exit.need?null:'__no',lock:H.exit.lock,cb:()=>go(H.exit.go)});
+  choice(opts,H.title);
+}
+
+// ---------- kodeks ----------
+let kSel=null;
+function openKod(pick){
+  if(mode==='choice'&&!pick)return;
+  kSel=null;$('kodH').textContent=u(pick?'pick':'kodeks');
+  $('kodP').style.display=pick?'':'none';$('kodP').disabled=true;
+  $('kodG').innerHTML=G.ev.map(k=>`<div class="it" data-k="${k}" tabindex="0" title="${EV[k].n}"><img src="assets/ev/${EV[k].i}.webp" alt="${EV[k].n}"></div>`).join('');
+  $('kodD').innerHTML=G.ev.length?`<p class="em">${u(pick?'pickEm':'readEm')}</p>`:`<p class="em">${u('empty')}</p>`;
+  $('kod').classList.add('on');$('kod').dataset.pick=pick?1:'';
+}
+function closeKod(){$('kod').classList.remove('on');if($('kod').dataset.pick){$('kod').dataset.pick='';onPick=null;if(tm&&mode==='tm')tmShow()}}
+$('kodG').addEventListener('click',e=>{const it=e.target.closest('.it');if(!it)return;kSel=it.dataset.k;[...$('kodG').children].forEach(x=>x.classList.toggle('sel',x===it));const v=EV[kSel];$('kodD').innerHTML=`<img src="assets/ev/${v.i}.webp" alt=""><h3>${v.n}</h3><p>${v.d}</p>`;$('kodP').disabled=false;SFX.click()});
+$('kodG').addEventListener('keydown',e=>{if(e.key==='Enter'){const it=e.target.closest('.it');if(it)it.click()}});
+$('kodX').onclick=closeKod;
+$('kodP').onclick=()=>{if(!kSel||!onPick)return;const f=onPick,k=kSel;onPick=null;$('kod').dataset.pick='';$('kod').classList.remove('on');f(k)};
+$('bK').onclick=()=>{ac();SFX.page();openKod(false)};
+
+// ---------- teologikon ----------
+let teoSel=null;
+function openTeo(){
+  const L=G.teo;$('teoL').innerHTML=L.map(k=>`<button data-k="${k}" class="${TEO[k].g?'g':''}">${TEO[k].n}</button>`).join('');
+  if(!L.length){$('teoB').classList.remove('gold');$('teoM').src='assets/teo/otac.webp';$('teoH').textContent=u('teo');$('teoP').textContent=u('teoEmpty');$('teoS').textContent=''}
+  else showTeo(teoSel&&L.includes(teoSel)?teoSel:L[L.length-1]);
+  $('teo').classList.add('on');
+}
+const MIN={otac:'teo/otac.webp',roditi:'teo/roditi.webp',molitva:'teo/molitva.webp',homoousios:'teo/homoousios.webp',kenodoksija:'teo/kenodoksija.webp',jota:'teo/jota.webp',anatema:'bg/brod.jpg',arijanstvo:'teo/arijanstvo.webp',obozenje:'teo/obozenje.webp'};
+function showTeo(k){teoSel=k;const t=TEO[k];$('teoB').classList.toggle('gold',!!t.g);$('teoM').src='assets/'+(MIN[k]||'teo/otac.webp');$('teoH').textContent=t.n;$('teoP').textContent=t.t;$('teoP').scrollTop=0;$('teoS').textContent=u('src')+t.s;
+  [...$('teoL').children].forEach(b=>b.classList.toggle('cur',b.dataset.k===k))}
+$('teoL').addEventListener('click',e=>{const b=e.target.closest('button');if(b){SFX.page();showTeo(b.dataset.k)}});
+$('teoX').onclick=()=>$('teo').classList.remove('on');
+$('bT').onclick=()=>{ac();SFX.page();openTeo()};
+
+// ---------- testimony ----------
+function startT(id){
+  const d=S.T[id];tm={d,cur:0,solved:[],rep:{},bonus:false,wi:0};
+  setPor(C[d.who].p);tmShow();
+}
+function tmShow(){
+  if(tm.solved.length===tm.d.layers.length){const n=tm.d.done;tm=null;$('ctrl').classList.remove('on');go(n);return}
+  mode='tm';const d=tm.d,i=tm.cur;
+  setPor(C[d.who].p);
+  $('name').textContent=C[d.who].n;$('more').style.display='none';
+  const t=tm.rep[i]?tm.rep[i][0]:d.st[i];
+  $('txt').className='';clearInterval(typing);typing=null;$('txt').textContent=t;
+  $('stno').textContent=`${d.title} · ${u('stmt')} ${i+1}/${d.st.length}`;
+  $('ctrl').classList.add('on');
+}
+$('bPrev').onclick=()=>{if(!tm)return;tm.cur=(tm.cur+tm.d.st.length-1)%tm.d.st.length;tmShow()};
+$('bNext').onclick=()=>{if(!tm)return;tm.cur=(tm.cur+1)%tm.d.st.length;tmShow()};
+$('bPress').onclick=()=>{if(!tm)return;const key=tm.rep[tm.cur]?tm.rep[tm.cur][1]:tm.cur;const lines=(tm.d.press[key]||[]).filter(l=>req(l.req));
+  $('ctrl').classList.remove('on');stack=[{a:[...lines,{tmResume:1}],i:0}];next()};
+$('bPres').onclick=()=>{if(!tm)return;onPick=tmPresent;openKod(true)};
+function tmPresent(k){
+  const d=tm.d,i=tm.cur;$('ctrl').classList.remove('on');
+  const li=d.layers.findIndex((L,j)=>L.at===i&&L.ev===k&&!tm.solved.includes(j));
+  if(li>=0){const L=d.layers[li];tm.solved.push(li);if(L.rep)tm.rep[L.rep[0]]=[L.rep[1],L.rep[2]];
+    const tail=[{tmResume:1}];if(L.teo)tail.unshift({teo:L.teo});stack=[{a:[...L.then,...tail],i:0}];next();return}
+  if(d.bonus&&!tm.bonus&&d.bonus.at===i&&d.bonus.ev===k){tm.bonus=true;stack=[{a:[...d.bonus.then,{tmResume:1}],i:0}];next();return}
+  const sp=d.special[k+'@'+i]||(k==='e4'?d.special.e4:null);
+  if(sp&&k!=='e4'){stack=[{a:[...sp,{tmResume:1}],i:0}];next();return}
+  wrong(sp||d.wrong[tm.wi++%d.wrong.length],[{tmResume:1}]);
+}
+function wrong(lines,tail){
+  SFX.wrong();G.pov=Math.max(0,G.pov-1);hud();setPor(C.FILON.p);shakeP();
+  let seq=[...lines];
+  if(G.pov<=0){seq.push({cap:u('povLost')},{s:'NIL',t:u('nilFail')},{pov:5});}
+  push([...seq,...tail]);next();
+}
+
+// ---------- ask (present without statement) ----------
+function ask(c){
+  const a=c.ask;mode='ask';
+  $('name').textContent='';$('txt').className='th';curVoice=VOICE.THINK;type(a.q);$('more').style.display='none';
+  $('stno').textContent='';$('ctrl').classList.add('on');
+  ['bPrev','bNext','bPress'].forEach(id=>$(id).style.display='none');
+  $('bPres').onclick=()=>{onPick=k=>{
+    ['bPrev','bNext','bPress'].forEach(id=>$(id).style.display='');$('ctrl').classList.remove('on');restorePres();
+    if(a.ok.includes(k)){next()}else{wrong(a.wrong,[c])}
+  };openKod(true)};
+}
+function restorePres(){$('bPres').onclick=()=>{if(!tm)return;onPick=tmPresent;openKod(true)}}
+
+// ---------- minigames ----------
+function mini(id){
+  mode='mini';const m=MINI[id],box=$('miniC');
+  if(id==='price'){let miss=0;
+    box.innerHTML=`<h2>${m.q}</h2>`+m.lines.map((l,i)=>`<button class="ln" data-i="${i}"><b>${l[0]}</b>${l[1]}</button>`).join('')+`<div class="msg" id="mm"></div>`;
+    box.onclick=e=>{const b=e.target.closest('.ln');if(!b)return;const i=+b.dataset.i;
+      if(i===m.ok){$('mini').classList.remove('on');box.onclick=null;push([{fx:'stani'},...m.win]);next()}
+      else $('mm').textContent=m.miss[Math.min(i,m.miss.length-1)]};
+  }
+  if(id==='jota'){let miss=0;
+    const words=m.text.split(' ');
+    const render=()=>{box.innerHTML=`<h2>${m.q}</h2><div class="gk">${words.map((w,i)=>`<span data-i="${i}">${w}</span>`).join(' ')}</div><div class="msg" id="mm">${u('jClick')}</div>`};
+    render();
+    const fail=()=>{$('mini').classList.remove('on');box.onclick=null;push(S.jota_missed);next()};
+    box.onclick=e=>{const s=e.target.closest('span');if(!s)return;
+      if(s.dataset.l!==undefined){const li=+s.dataset.l;
+        if(li===3){$('mini').classList.remove('on');box.onclick=null;push([{fx:'stani'},...S.jota_found,{note:u('tr')+m.tr}]);next();return}
+        if(li===7){$('mm').textContent=u('jOusia');}
+        else $('mm').textContent=u('jLetter');
+        if(++miss>=4)fail();return}
+      const w=words[+s.dataset.i].replace(/[·,…]/g,'');
+      if(w===m.bad){box.querySelector('.gk').outerHTML=`<div class="lt">${[...m.bad].map((ch,i)=>`<span data-l="${i}">${ch}</span>`).join('')}</div>`;$('mm').textContent=u('jSusp');}
+      else{$('mm').textContent=u('jWord');if(++miss>=4)fail()}};
+  }
+  $('mini').classList.add('on');
+}
+
+// ---------- ending / title ----------
+function ending(){
+  mode='end';setPor(null);
+  $('endS').textContent=u('endS',G.trezEnd??G.trez,G.ev.length,Object.keys(EV).length);
+  const sp=G.teo.filter(k=>TEO[k].g).length;
+  const nG=Object.values(TEO).filter(t=>t.g).length;
+  $('endT').textContent=u('endT',G.teo.length,Object.keys(TEO).length)+(sp?u('endSp',sp,nG):u('endNo'));
+  $('endscr').classList.add('on');stage.classList.add('menu');try{localStorage.removeItem(KEY)}catch(e){}
+}
+$('bAgain').onclick=()=>{$('endscr').classList.remove('on');begin(null)};
+$('bEndT').onclick=openTeo;
+function begin(st){
+  G=st||fresh();tm=null;hud();$('title').classList.remove('on');stage.classList.remove('menu');
+  if(st&&st.scene){go(st.scene)}else go('uvod');
+}
+setBg('nikeja');G=fresh();hud();$('title').classList.add('on');stage.classList.add('menu');
+const sv=load();if(sv&&sv.scene&&S[sv.scene]){$('bCont').style.display=''}
+$('bStart').onclick=()=>{ac();begin(null)};
+mbtn();$('bM').onclick=()=>{ac();MUS.on=!MUS.on;try{localStorage.setItem('nijote_pojanje',MUS.on?'1':'0')}catch(e){}mbtn();if(MUS.on){const t=MUS.cur;MUS.cur=null;music(t)}else stopMusic()};
+$('bS').onclick=()=>{ac();AU.on=!AU.on;try{localStorage.setItem('nijote_zvuk',AU.on?'1':'0')}catch(e){}sbtn();if(AU.on)SFX.click()};sbtn();
+document.querySelectorAll('#lng button').forEach(b=>{b.classList.toggle('on',b.dataset.l===LANG);b.onclick=()=>{if(b.dataset.l===LANG)return;try{localStorage.setItem('nijote_pismo',b.dataset.l)}catch(e){}location.hash={cyr:'cirilica',lat:'latinica',en:'english'}[b.dataset.l];location.reload()}});
+document.addEventListener('pointerdown',()=>ac(),{once:true});
+$('bCont').onclick=()=>{ac();const s=load();if(s){s.cur=null;begin(s)}else begin(null)};
+}
+</script>
+</body>
+</html>
